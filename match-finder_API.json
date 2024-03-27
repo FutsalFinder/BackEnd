@@ -1,0 +1,105 @@
+{
+  "endpoints": [
+    {
+      "url": "/myURL/matches/{date}",
+      "method": "GET",
+      "description": "특정 날짜의 매치정보를 가져옵니다.",
+      "url_parameters" : [
+        {
+          "name": "date",
+          "type": "string",
+          "description": "매치 날짜 (yyyy-mm-dd)"
+        }
+      ],
+      "query_parameters": [
+        {
+          "name": "region",
+          "type": "integer",
+          "description": "검색할 지역. 유효한 값 : 0(모든지역), 1(서울), 2(경기)",
+          "required": true
+        },
+        {
+          "name": "platform",
+          "type": "string",
+          "description": "필터링할 플랫폼을 선택한다. 쉼표로 구분된 여러개의 값 허용 가능. 유효한 값 : 'plab', 'with', 'puzzle', 'iam' ",
+          "required": false
+        },
+        {
+          "name": "sex",
+          "type": "integer",
+          "description" : "필터링할 매치 성별을 선택한다. 쉼표로 구분된 여러개의 값 허용 가능. 유효한 값 : -1(여자), 0(남녀모두), 1(남자)",
+          "required": false
+        },
+        {
+          "name": "hide_soldout",
+          "type" : "none",
+          "description":"마감된 매치를 제외하고 싶을 때 사용한다. 값을 넘겨주지 말아야한다.",
+          "required": false
+        }
+      ],
+      "response": {
+        "status": 200,
+        "body": [
+          {
+            "platform": {
+              "description":"플랫폼 정보",
+              "values": ["Plab", "With", "Puzzle", "IamGround"]
+            },
+            "date":{
+              "decription":"날짜 (yyyy-mm-dd)",
+              "example": "2024-04-17"
+            },
+            "time":{
+              "description":"시간 (hh-mm)",
+              "example": "19:00"
+            },
+            "region": {
+              "description":"지역",
+              "example": "서울"
+            },
+            "mainSatdium": {
+              "description":"메인 구장",
+              "example": "서울 영등포 EA SPORTS FC(더에프필드)"
+            },
+            "subSatdium": {
+              "description": "세부 구장",
+              "example": "B구장"
+            },
+            "matchType": {
+              "description": "매치 타입",
+              "values": ["일반", "랭크", "플랩팀리그", "티셔츠"]
+            },
+            "sex":{
+              "description": "매치 성별",
+              "values": ["남자", "여자", "남녀모두"]
+            },
+            "level":{
+              "description": "매치 레벨",
+              "values": ["모든레벨", "아마추어1 이하", "아마추어2 이상"]
+            },
+            "match_vs":{
+              "type": "integer",
+              "description": "한팀당 인원수. 6vs6이면 6, 5vs5면 5"
+            },
+            "cur_player":{
+              "type": "integer",
+              "description": "현시점 매치 신청 인원 수"
+            },
+            "max_player":{
+              "type": "integer",
+              "description": "매치 최대 신청 가능 인원 수"
+            },
+            "price":{
+              "type": "integer",
+              "description": "매치 신청 가격, 정확하지 않을 수 있음"
+            },
+            "link":{
+              "description": "매치 링크",
+              "example": "https://www.plabfootball.com/match/334822/"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
