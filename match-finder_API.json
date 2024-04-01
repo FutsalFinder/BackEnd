@@ -57,6 +57,10 @@
               "description":"지역",
               "example": "서울"
             },
+            "match_title": {
+              "description":"매치 타이틀, 이 값을 화면에 띄우면된다.",
+              "example":"서울 영등포 EA SPORTS FC(더에프필드) B구장 *주차마감*"
+            },
             "mainSatdium": {
               "description":"메인 구장",
               "example": "서울 영등포 EA SPORTS FC(더에프필드)"
@@ -67,7 +71,7 @@
             },
             "matchType": {
               "description": "매치 타입",
-              "values": ["일반", "랭크", "플랩팀리그", "티셔츠"]
+              "values": ["일반매치", "랭크", "플랩팀리그", "티셔츠 매치"]
             },
             "sex":{
               "description": "매치 성별",
