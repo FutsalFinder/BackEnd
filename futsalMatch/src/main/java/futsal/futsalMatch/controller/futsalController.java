@@ -11,6 +11,7 @@ import futsal.futsalMatch.configs.PlabConfig;
 import futsal.futsalMatch.configs.PuzzleConfig;
 import futsal.futsalMatch.configs.WithConfig;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,20 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @Controller
 public class futsalController {
-
-    class sortByMatchStartTime implements Comparator<MatchInfo> {
-        @Override
-        public int compare(MatchInfo m1, MatchInfo m2) {
-            return LocalTime.parse(m1.getTime()).compareTo(LocalTime.parse(m2.getTime()));
-        }
-    }
 
     @ResponseBody
     @GetMapping("/futsal-info/{date}")
@@ -48,7 +40,9 @@ public class futsalController {
         matchInfoList.addAll(withRequester.requestMatchInfo(localDate, "0"));
         matchInfoList.addAll(iamRequester.requestMatchInfo(localDate, "0"));
 
-        matchInfoList.sort(new sortByMatchStartTime());
+        matchInfoList.sort((m1, m2) ->
+                LocalTime.parse(m1.getTime())
+                        .compareTo(LocalTime.parse(m2.getTime())));
         return matchInfoList;
     }
 
@@ -83,4 +77,6 @@ public class futsalController {
         LocalDate localDate = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
         return requester.requestMatchInfo(localDate, "0"); //0 is seoul in with
     }
+
+
 }
