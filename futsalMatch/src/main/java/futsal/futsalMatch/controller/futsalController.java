@@ -43,6 +43,11 @@ public class futsalController {
         matchInfoList.sort((m1, m2) ->
                 LocalTime.parse(m1.getTime())
                         .compareTo(LocalTime.parse(m2.getTime())));
+
+        if(LocalDate.parse(dateString).equals(LocalDate.now())){
+            matchInfoList.removeIf(m -> LocalTime.now().isAfter(LocalTime.parse(m.getTime())));
+        }
+
         return matchInfoList;
     }
 
