@@ -16,24 +16,21 @@
           "name": "region",
           "type": "integer",
           "description": "검색할 지역. 유효한 값 : 0(모든지역), 1(서울), 2(경기)",
+          "example": "?region=0",
           "required": true
         },
         {
           "name": "platform",
           "type": "string",
           "description": "필터링할 플랫폼을 선택한다. 쉼표로 구분된 여러개의 값 허용 가능. 유효한 값 : 'plab', 'with', 'puzzle', 'iam' ",
+          "example": "?region=0&platform=plab,with",
           "required": false
         },
         {
           "name": "sex",
           "type": "integer",
           "description" : "필터링할 매치 성별을 선택한다. 쉼표로 구분된 여러개의 값 허용 가능. 유효한 값 : -1(여자), 0(남녀모두), 1(남자)",
-          "required": false
-        },
-        {
-          "name": "hide_soldout",
-          "type" : "none",
-          "description":"마감된 매치를 제외하고 싶을 때 사용한다. 값을 넘겨주지 말아야한다.",
+          "example": "?region=0&platform=plab,with&sex=0,1",
           "required": false
         }
       ],
@@ -58,7 +55,7 @@
               "example": "서울"
             },
             "match_title": {
-              "description":"매치 타이틀, 이 값을 화면에 띄우면된다.",
+              "description":"매치 타이틀, 이 값을 화면에 띄우면 된다.",
               "example":"서울 영등포 EA SPORTS FC(더에프필드) B구장 *주차마감*"
             },
             "mainSatdium": {
