@@ -4,7 +4,7 @@ import futsal.futsalMatch.converter.MatchInfoConverter;
 import futsal.futsalMatch.configs.PuzzleConfig;
 import futsal.futsalMatch.domain.MatchInfos.MatchInfo;
 import futsal.futsalMatch.domain.MatchInfoRequester;
-import futsal.futsalMatch.domain.MatchInfos.PuzzleMatchInfo;
+import futsal.futsalMatch.domain.MatchInfos.record.PuzzleMatchInfo;
 import jakarta.annotation.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;

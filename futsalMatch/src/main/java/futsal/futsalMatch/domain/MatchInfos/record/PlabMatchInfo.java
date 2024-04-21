@@ -1,4 +1,4 @@
-package futsal.futsalMatch.domain.MatchInfos;
+package futsal.futsalMatch.domain.MatchInfos.record;
 
 import org.json.JSONObject;
 

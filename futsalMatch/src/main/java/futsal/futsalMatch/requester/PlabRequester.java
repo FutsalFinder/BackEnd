@@ -2,7 +2,7 @@ package futsal.futsalMatch.requester;
 import futsal.futsalMatch.converter.MatchInfoConverter;
 import futsal.futsalMatch.domain.MatchInfos.MatchInfo;
 import futsal.futsalMatch.domain.MatchInfoRequester;
-import futsal.futsalMatch.domain.MatchInfos.PlabMatchInfo;
+import futsal.futsalMatch.domain.MatchInfos.record.PlabMatchInfo;
 import jakarta.annotation.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;

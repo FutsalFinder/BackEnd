@@ -22,25 +22,23 @@ import java.util.*;
 public class futsalController {
 
     @GetMapping("/futsal-info/{date}")
-    //this change is on br1
-    public List<MatchInfo> showAll(@PathVariable("date") String dateString) {
+    public List<MatchInfo> showAll(@PathVariable("date") LocalDate date) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
         Requestable plabRequester = new PlabRequester(PlabConfig.baseUrl);
         Requestable puzzleRequester = new PuzzleRequester(PuzzleConfig.baseUrl);
         Requestable withRequester = new WithRequester(WithConfig.baseUrl);
         Requestable iamRequester = new IamRequester(IamConfig.baseUrl);
 
-        LocalDate localDate = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE);
-        matchInfoList.addAll(plabRequester.requestMatchInfo(localDate, "1"));
-        matchInfoList.addAll(puzzleRequester.requestMatchInfo(localDate, "0"));
-        matchInfoList.addAll(withRequester.requestMatchInfo(localDate, "0"));
-        matchInfoList.addAll(iamRequester.requestMatchInfo(localDate, "0"));
+        matchInfoList.addAll(plabRequester.requestMatchInfo(date, "1"));
+        matchInfoList.addAll(puzzleRequester.requestMatchInfo(date, "0"));
+        matchInfoList.addAll(withRequester.requestMatchInfo(date, "0"));
+        matchInfoList.addAll(iamRequester.requestMatchInfo(date, "0"));
 
         matchInfoList.sort((m1, m2) ->
                 LocalTime.parse(m1.getTime())
                         .compareTo(LocalTime.parse(m2.getTime())));
 
-        if(LocalDate.parse(dateString).equals(LocalDate.now())){
+        if(date.equals(LocalDate.now())){
             matchInfoList.removeIf(m -> LocalTime.now().isAfter(LocalTime.parse(m.getTime())));
         }
 
