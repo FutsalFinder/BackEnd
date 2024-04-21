@@ -10,11 +10,7 @@ import futsal.futsalMatch.configs.IamConfig;
 import futsal.futsalMatch.configs.PlabConfig;
 import futsal.futsalMatch.configs.PuzzleConfig;
 import futsal.futsalMatch.configs.WithConfig;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,11 +18,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:5173")
-@Controller
+@RestController
 public class futsalController {
 
-    @ResponseBody
     @GetMapping("/futsal-info/{date}")
+    //this change is on br1
     public List<MatchInfo> showAll(@PathVariable("date") String dateString) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
         Requestable plabRequester = new PlabRequester(PlabConfig.baseUrl);
@@ -51,7 +47,6 @@ public class futsalController {
         return matchInfoList;
     }
 
-    @ResponseBody
     @GetMapping("/futsal-info/plab/{date}")
     public List<MatchInfo> showPlab(@PathVariable("date") String dateString) {
         Requestable requester = new PlabRequester(PlabConfig.baseUrl);
@@ -59,7 +54,6 @@ public class futsalController {
         return requester.requestMatchInfo(localDate, "1"); //1 is seoul in plab
     }
 
-    @ResponseBody
     @GetMapping("/futsal-info/with/{date}")
     public List<MatchInfo> showWith(@PathVariable("date") String dateString) {
         Requestable requester = new WithRequester(WithConfig.baseUrl);
@@ -67,7 +61,6 @@ public class futsalController {
         return requester.requestMatchInfo(localDate, "0"); //0 is seoul in with
     }
 
-    @ResponseBody
     @GetMapping("/futsal-info/puzzle/{date}")
     public List<MatchInfo> showPuzzle(@PathVariable("date") String dateString) {
         Requestable requester = new PuzzleRequester(PuzzleConfig.baseUrl);
@@ -75,7 +68,6 @@ public class futsalController {
         return requester.requestMatchInfo(localDate, "0"); //0 is seoul in with
     }
 
-    @ResponseBody
     @GetMapping("/futsal-info/iam/{date}")
     public List<MatchInfo> showIam(@PathVariable("date") String dateString) {
         Requestable requester = new IamRequester(IamConfig.baseUrl);
