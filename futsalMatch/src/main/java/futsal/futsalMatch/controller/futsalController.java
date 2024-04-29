@@ -21,7 +21,7 @@ import java.util.*;
 @RestController
 public class futsalController {
 
-    @GetMapping("/futsal-info/{date}")
+    @GetMapping("/matches/{date}")
     public List<MatchInfo> showAll(@PathVariable("date") LocalDate date) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
         Requestable plabRequester = new PlabRequester(PlabConfig.baseUrl);
