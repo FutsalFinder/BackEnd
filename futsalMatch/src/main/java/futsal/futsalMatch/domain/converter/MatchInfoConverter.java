@@ -13,6 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class MatchInfoConverter {
     private static final String defaultValue = "null";
 
@@ -93,16 +96,23 @@ public class MatchInfoConverter {
         String platform = "Puzzle";
         matchInfo.setPlatform(platform);
 
-        String date = getValue(matchInfoJson, PuzzleConfig.date); //yyyy-mm-ddThh:mm
+        String date = getValue(matchInfoJson, PuzzleConfig.date); //yyyy-mm-dd
         matchInfo.setDate(date);
 
-        String time = getValue(matchInfoJson, PuzzleConfig.time); //yyyy-mm-ddThh:mm
+        String time = getValue(matchInfoJson, PuzzleConfig.time); //hh:mm
         matchInfo.setTime(time);
 
+        //퍼즐풋볼의 다음날 0시 매치를 전날 23:59 매치로 변경
+        if(time.equals("00:00")){
+            LocalDate yesterday = LocalDate.parse(date, DateTimeFormatter.ISO_DATE).minusDays(1);
+            matchInfo.setDate(yesterday.toString());
+            matchInfo.setTime("23:59");
+        }
+
         String region = getValue(matchInfoJson, PuzzleConfig.region);
-        if (region.equals(PuzzleConfig.PuzzleRegion.SEOUL)) region = "서울";
-        if (region.equals(PuzzleConfig.PuzzleRegion.GYEONGGI_DONGBU)) region = "경기";
-        if (region.equals(PuzzleConfig.PuzzleRegion.GYEONGGI_NAMBU)) region = "경기";
+        if (region.equals(PuzzleConfig.Region.SEOUL)) region = "서울";
+        if (region.equals(PuzzleConfig.Region.GYEONGGI_DONGBU)) region = "경기";
+        if (region.equals(PuzzleConfig.Region.GYEONGGI_NAMBU)) region = "경기";
         matchInfo.setRegion(region);
 
         /********************puzzle ground info**************/

@@ -21,9 +21,11 @@ public class WithRequester extends MatchInfoRequester {
     @Override
     public List<MatchInfo> requestMatchInfo(LocalDate date, Integer region) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
+        if(region == 2) return matchInfoList; //위드풋살은 서울만 가능
         addQueryParam("cmd", "search-info");
         addQueryParam("day", date.toString());
-        addQueryParam("area_code", region);
+
+        addQueryParam("area_code", "0");
         addQueryParam("member_code", "all");
 
         HttpEntity<String> httpEntity = new HttpEntity<>(new HttpHeaders());

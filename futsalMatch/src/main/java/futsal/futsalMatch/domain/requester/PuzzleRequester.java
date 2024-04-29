@@ -4,7 +4,6 @@ import futsal.futsalMatch.domain.converter.MatchInfoConverter;
 import futsal.futsalMatch.configs.PuzzleConfig;
 import futsal.futsalMatch.domain.data.MatchInfo;
 import futsal.futsalMatch.domain.data.record.PuzzleMatchInfo;
-import jakarta.annotation.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.*;
@@ -27,7 +26,6 @@ public class PuzzleRequester extends MatchInfoRequester {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "*/*");
         headers.set("Accept-Encoding", "gzip, deflate, br, zstd");
-        headers.set("Content-Length", "103");
         headers.set("Content-Type", "application/json");
         headers.set("Host", "puzzleplay.kr");
         headers.set("Origin", "https://puzzleplay.kr");
@@ -41,7 +39,21 @@ public class PuzzleRequester extends MatchInfoRequester {
         jsonObject.put("active_date", date.toString());
 
         List<String> regionArr = new ArrayList<>();
-        regionArr.add(PuzzleConfig.PuzzleRegion.SEOUL);
+        if(region == 0){
+            regionArr.add(PuzzleConfig.Region.SEOUL);
+            regionArr.add(PuzzleConfig.Region.GYEONGGI_NAMBU);
+            regionArr.add(PuzzleConfig.Region.GYEONGGI_DONGBU);
+            headers.set("Content-Length", "157");
+        }
+        if(region == 1){
+            regionArr.add(PuzzleConfig.Region.SEOUL);
+            headers.set("Content-Length", "103");
+        }
+        if(region == 2){
+            regionArr.add(PuzzleConfig.Region.GYEONGGI_NAMBU);
+            regionArr.add(PuzzleConfig.Region.GYEONGGI_DONGBU);
+            headers.set("Content-Length", "130");
+        }
         jsonObject.put("region", regionArr);
         /**********************************************/
 

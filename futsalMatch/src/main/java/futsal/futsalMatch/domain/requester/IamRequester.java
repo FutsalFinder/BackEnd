@@ -49,10 +49,13 @@ public class IamRequester extends MatchInfoRequester {
         if (statusCode == HttpStatus.OK) {
             //System.out.println(response.toString());
             JSONArray iamMatchInfoList = new JSONArray(response.toString().substring(11)); //starts with "<200 OK OK,[JsonArray...]"
-            System.out.println(iamMatchInfoList.toString());
+            //System.out.println(iamMatchInfoList.toString());
             for (Object object : iamMatchInfoList) {
                 IamMatchInfo iamMatchInfo = new IamMatchInfo(new JSONObject(object.toString()));
-                matchInfoList.add(MatchInfoConverter.convert(iamMatchInfo));
+                MatchInfo matchInfo = MatchInfoConverter.convert(iamMatchInfo);
+                if(region == 1 && !matchInfo.getRegion().equals("서울")) continue;
+                if(region == 2 && !matchInfo.getRegion().equals("경기")) continue;
+                matchInfoList.add(matchInfo);
             }
         } else {
             System.out.println("요청 실패: " + statusCode);

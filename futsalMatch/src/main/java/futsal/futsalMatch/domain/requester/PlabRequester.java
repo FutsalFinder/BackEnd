@@ -20,8 +20,21 @@ public class PlabRequester extends MatchInfoRequester {
     @Override
     public List<MatchInfo> requestMatchInfo(LocalDate date, Integer region) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
+        if(region == 0){
+            matchInfoList.addAll(requestByRegion(date, 1));
+            matchInfoList.addAll(requestByRegion(date, 2));
+        }
+        else{
+            matchInfoList.addAll(requestByRegion(date, region));
+        }
+        return matchInfoList;
+    }
+
+    private List<MatchInfo> requestByRegion(LocalDate date, Integer region) {
+        List<MatchInfo> matchInfoList = new ArrayList<>();
+
         addQueryParam("sch", date.toString());
-        addQueryParam("region", region);
+        addQueryParam("region", region.toString());
         addQueryParam("page_size", "700");
         addQueryParam("ordering", "schedule");
 

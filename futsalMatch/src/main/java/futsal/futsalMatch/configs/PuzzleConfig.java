@@ -22,7 +22,7 @@ public class PuzzleConfig {
     public static final String baseUrl = "https://puzzleplay.kr/filter";
     public static final String matchLinkBaseUrl = "https://puzzleplay.kr/social/";
 
-    public static class PuzzleRegion{
+    public static class Region {
         public static final String SEOUL = "5e8190a8bb3b302ce2e03279";
         public static final String GYEONGGI_NAMBU = "65126e1929b8b579c68f372e";
         public static final String GYEONGGI_DONGBU = "65126e3929b8b579c68f372f";

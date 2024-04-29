@@ -19,7 +19,6 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 public class MainController {
-
     private static List<Requestable> requesters = new ArrayList<>();
     static {
         requesters.add(new PlabRequester(PlabConfig.baseUrl));
@@ -27,13 +26,16 @@ public class MainController {
         requesters.add(new WithRequester(WithConfig.baseUrl));
         requesters.add(new IamRequester(IamConfig.baseUrl));
     }
-
     @GetMapping("/matches/{date}")
     public List<MatchInfo> showAll(@PathVariable("date") LocalDate date,
-                                   @RequestParam(defaultValue = "0") Integer region) {
+                                   @RequestParam(value = "region") Integer region) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
         for (Requestable requester : requesters) {
-            matchInfoList.addAll(requester.requestMatchInfo(date, region));
+            try{
+                matchInfoList.addAll(requester.requestMatchInfo(date, region));
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
 
         matchInfoList.sort((m1, m2) ->
@@ -46,8 +48,4 @@ public class MainController {
 
         return matchInfoList;
     }
-
-
-
-
 }
