@@ -1,9 +1,8 @@
-package futsal.futsalMatch.requester;
+package futsal.futsalMatch.domain.requester;
 
-import futsal.futsalMatch.converter.MatchInfoConverter;
-import futsal.futsalMatch.domain.MatchInfos.MatchInfo;
-import futsal.futsalMatch.domain.MatchInfoRequester;
-import futsal.futsalMatch.domain.MatchInfos.record.WithMatchInfo;
+import futsal.futsalMatch.domain.converter.MatchInfoConverter;
+import futsal.futsalMatch.domain.data.MatchInfo;
+import futsal.futsalMatch.domain.data.record.WithMatchInfo;
 import jakarta.annotation.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,7 +19,7 @@ public class WithRequester extends MatchInfoRequester {
     }
 
     @Override
-    public List<MatchInfo> requestMatchInfo(LocalDate date, @Nullable String region) {
+    public List<MatchInfo> requestMatchInfo(LocalDate date, Integer region) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
         addQueryParam("cmd", "search-info");
         addQueryParam("day", date.toString());

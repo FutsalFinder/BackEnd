@@ -1,9 +1,7 @@
-package futsal.futsalMatch.domain.MatchInfos;
+package futsal.futsalMatch.domain.data;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter @Setter
 public class MatchInfo {

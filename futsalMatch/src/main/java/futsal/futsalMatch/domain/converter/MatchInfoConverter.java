@@ -1,14 +1,14 @@
-package futsal.futsalMatch.converter;
+package futsal.futsalMatch.domain.converter;
 
 import futsal.futsalMatch.configs.IamConfig;
-import futsal.futsalMatch.domain.MatchInfos.*;
+import futsal.futsalMatch.domain.data.*;
 import futsal.futsalMatch.configs.PlabConfig;
 import futsal.futsalMatch.configs.PuzzleConfig;
 import futsal.futsalMatch.configs.WithConfig;
-import futsal.futsalMatch.domain.MatchInfos.record.IamMatchInfo;
-import futsal.futsalMatch.domain.MatchInfos.record.PlabMatchInfo;
-import futsal.futsalMatch.domain.MatchInfos.record.PuzzleMatchInfo;
-import futsal.futsalMatch.domain.MatchInfos.record.WithMatchInfo;
+import futsal.futsalMatch.domain.data.record.IamMatchInfo;
+import futsal.futsalMatch.domain.data.record.PlabMatchInfo;
+import futsal.futsalMatch.domain.data.record.PuzzleMatchInfo;
+import futsal.futsalMatch.domain.data.record.WithMatchInfo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

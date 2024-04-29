@@ -1,11 +1,11 @@
-package futsal.futsalMatch.domain;
+package futsal.futsalMatch.domain.requester;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import futsal.futsalMatch.domain.requester.Requestable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MatchInfoRequester implements Requestable{
+public abstract class MatchInfoRequester implements Requestable {
     protected final String baseURLString;
     private final List<String> queryParams = new ArrayList<>();
 

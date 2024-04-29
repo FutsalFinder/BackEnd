@@ -18,20 +18,6 @@
           "description": "검색할 지역. 유효한 값 : 0(모든지역), 1(서울), 2(경기)",
           "example": "?region=0",
           "required": true
-        },
-        {
-          "name": "platform",
-          "type": "string",
-          "description": "필터링할 플랫폼을 선택한다. 쉼표로 구분된 여러개의 값 허용 가능. 유효한 값 : 'plab', 'with', 'puzzle', 'iam' ",
-          "example": "?region=0&platform=plab,with",
-          "required": false
-        },
-        {
-          "name": "sex",
-          "type": "integer",
-          "description" : "필터링할 매치 성별을 선택한다. 쉼표로 구분된 여러개의 값 허용 가능. 유효한 값 : -1(여자), 0(남녀모두), 1(남자)",
-          "example": "?region=0&platform=plab,with&sex=0,1",
-          "required": false
         }
       ],
       "response": {

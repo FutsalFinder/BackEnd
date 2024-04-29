@@ -1,9 +1,8 @@
-package futsal.futsalMatch.requester;
+package futsal.futsalMatch.domain.requester;
 
-import futsal.futsalMatch.converter.MatchInfoConverter;
-import futsal.futsalMatch.domain.MatchInfos.record.IamMatchInfo;
-import futsal.futsalMatch.domain.MatchInfos.MatchInfo;
-import futsal.futsalMatch.domain.MatchInfoRequester;
+import futsal.futsalMatch.domain.converter.MatchInfoConverter;
+import futsal.futsalMatch.domain.data.record.IamMatchInfo;
+import futsal.futsalMatch.domain.data.MatchInfo;
 import jakarta.annotation.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,7 +20,7 @@ public class IamRequester extends MatchInfoRequester {
     }
 
     @Override
-    public List<MatchInfo> requestMatchInfo(LocalDate date, @Nullable String region) {
+    public List<MatchInfo> requestMatchInfo(LocalDate date, Integer region) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
         /******************request header***************/
         HttpHeaders headers = new HttpHeaders();
