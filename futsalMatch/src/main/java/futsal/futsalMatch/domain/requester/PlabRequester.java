@@ -34,10 +34,11 @@ public class PlabRequester extends MatchInfoRequester {
     private List<MatchInfo> requestByRegion(LocalDate date, Integer region) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
 
-        addQueryParam("sch", date.toString());
-        addQueryParam("region", region.toString());
-        addQueryParam("page_size", "700");
-        addQueryParam("ordering", "schedule");
+        List<String> paramList = new ArrayList<>();
+        addQueryParam(paramList,"sch", date.toString());
+        addQueryParam(paramList,"region", region.toString());
+        addQueryParam(paramList,"page_size", "700");
+        addQueryParam(paramList,"ordering", "schedule");
 
         HttpEntity<String> httpEntity = new HttpEntity<>(new HttpHeaders());
         RestTemplate restTemplate = new RestTemplate();
@@ -45,8 +46,8 @@ public class PlabRequester extends MatchInfoRequester {
         ResponseEntity<String> response;
 
         try{
-             response = restTemplate
-                    .exchange(getRequestUrlString(), HttpMethod.GET, httpEntity, String.class);
+            response = restTemplate
+                    .exchange(getRequestUrlString(paramList), HttpMethod.GET, httpEntity, String.class);
         } catch (Exception e){
             log.error("****************************플랩풋볼 요청 실패***********************************\n");
             log.error(e.getMessage(), e);

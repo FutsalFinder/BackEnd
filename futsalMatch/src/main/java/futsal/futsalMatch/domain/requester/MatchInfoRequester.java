@@ -7,24 +7,25 @@ import java.util.List;
 
 public abstract class MatchInfoRequester implements Requestable {
     protected final String baseURLString;
-    private final List<String> queryParams = new ArrayList<>();
-
     protected MatchInfoRequester(String baseURLString) {
         this.baseURLString = baseURLString;
     }
-
-    protected void addQueryParam(String key, String value) {
-        queryParams.add(key + "=" + value);
+    protected void addQueryParam(List<String> paramList, String key, String value) {
+        paramList.add(key + "=" + value);
     }
 
-    public String getRequestUrlString() {
+    public String getRequestUrlString(List<String> paramList) {
         StringBuilder requestUrlString = new StringBuilder(baseURLString);
-        boolean queryAdded = false;
-        for (String queryParam : queryParams) {
-            if(!queryAdded) requestUrlString.append("?");
+
+        boolean isFirstParam = true;
+        for (String queryParam : paramList) {
+            if(isFirstParam) {
+                requestUrlString.append("?");
+                isFirstParam = false;
+            }
             else requestUrlString.append("&");
+
             requestUrlString.append(queryParam);
-            queryAdded = true;
         }
 
         return requestUrlString.toString();

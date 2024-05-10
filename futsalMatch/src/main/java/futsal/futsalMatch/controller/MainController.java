@@ -27,6 +27,7 @@ public class MainController {
         requesters.add(new WithRequester(WithConfig.baseUrl));
         requesters.add(new IamRequester(IamConfig.baseUrl));
     }
+
     @GetMapping(value = "/matches/{date}", headers = {"Accept=application/json;charset=UTF-8"})
     public List<MatchInfo> showAll(@PathVariable("date") LocalDate date,
                                    @RequestParam(value = "region") Integer region) {

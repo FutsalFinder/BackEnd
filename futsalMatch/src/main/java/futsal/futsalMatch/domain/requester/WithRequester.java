@@ -24,18 +24,20 @@ public class WithRequester extends MatchInfoRequester {
     public List<MatchInfo> requestMatchInfo(LocalDate date, Integer region) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
         if(region == 2) return matchInfoList; //위드풋살은 서울만 가능
-        addQueryParam("cmd", "search-info");
-        addQueryParam("day", date.toString());
 
-        addQueryParam("area_code", "0");
-        addQueryParam("member_code", "all");
+        List<String> paramList = new ArrayList<>();
+        addQueryParam(paramList,"cmd", "search-info");
+        addQueryParam(paramList,"day", date.toString());
+
+        addQueryParam(paramList,"area_code", "0");
+        addQueryParam(paramList,"member_code", "all");
 
         HttpEntity<String> httpEntity = new HttpEntity<>(new HttpHeaders());
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response;
         try{
             response = restTemplate
-                    .exchange(getRequestUrlString(), HttpMethod.GET, httpEntity, String.class);
+                    .exchange(getRequestUrlString(paramList), HttpMethod.GET, httpEntity, String.class);
         } catch (Exception e){
             log.error("****************************위드풋살 요청 실패***********************************\n");
             log.error(e.getMessage(), e);
