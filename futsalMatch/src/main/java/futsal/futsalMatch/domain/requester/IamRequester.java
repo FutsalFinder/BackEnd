@@ -4,6 +4,7 @@ import futsal.futsalMatch.domain.converter.MatchInfoConverter;
 import futsal.futsalMatch.domain.data.record.IamMatchInfo;
 import futsal.futsalMatch.domain.data.MatchInfo;
 import jakarta.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.*;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class IamRequester extends MatchInfoRequester {
 
     public IamRequester(String basicURL) {
@@ -42,14 +44,19 @@ public class IamRequester extends MatchInfoRequester {
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(baseURLString, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response;
+        try{
+            response = restTemplate.exchange(baseURLString, HttpMethod.POST, entity, String.class);
+        } catch (Exception e){
+            log.error("****************************아이엠그라운드 요청 실패***********************************\n");
+            log.error(e.getMessage(), e);
+            return matchInfoList;
+        }
         /********************************************/
 
         HttpStatusCode statusCode = response.getStatusCode();
         if (statusCode == HttpStatus.OK) {
-            //System.out.println(response.toString());
             JSONArray iamMatchInfoList = new JSONArray(response.toString().substring(11)); //starts with "<200 OK OK,[JsonArray...]"
-            //System.out.println(iamMatchInfoList.toString());
             for (Object object : iamMatchInfoList) {
                 IamMatchInfo iamMatchInfo = new IamMatchInfo(new JSONObject(object.toString()));
                 MatchInfo matchInfo = MatchInfoConverter.convert(iamMatchInfo);
@@ -57,8 +64,6 @@ public class IamRequester extends MatchInfoRequester {
                 if(region == 2 && !matchInfo.getRegion().equals("경기")) continue;
                 matchInfoList.add(matchInfo);
             }
-        } else {
-            System.out.println("요청 실패: " + statusCode);
         }
 
         return matchInfoList;

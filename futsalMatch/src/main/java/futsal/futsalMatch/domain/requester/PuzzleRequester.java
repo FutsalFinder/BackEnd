@@ -4,6 +4,7 @@ import futsal.futsalMatch.domain.converter.MatchInfoConverter;
 import futsal.futsalMatch.configs.PuzzleConfig;
 import futsal.futsalMatch.domain.data.MatchInfo;
 import futsal.futsalMatch.domain.data.record.PuzzleMatchInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.*;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class PuzzleRequester extends MatchInfoRequester {
 
     public PuzzleRequester(String baseURLString) {
@@ -61,7 +63,15 @@ public class PuzzleRequester extends MatchInfoRequester {
         HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(baseURLString, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response;
+        try{
+            response = restTemplate.exchange(baseURLString, HttpMethod.POST, entity, String.class);
+        } catch (Exception e){
+            log.error("****************************퍼즐플레이 요청 실패***********************************\n");
+            log.error(e.getMessage(), e);
+            return matchInfoList;
+        }
+
         /********************************************/
 
         HttpStatusCode statusCode = response.getStatusCode();
@@ -73,8 +83,6 @@ public class PuzzleRequester extends MatchInfoRequester {
                 PuzzleMatchInfo puzzleMatchInfo = new PuzzleMatchInfo(new JSONObject(object.toString()));
                 matchInfoList.add(MatchInfoConverter.convert(puzzleMatchInfo));
             }
-        } else {
-            System.out.println("요청 실패: " + statusCode);
         }
 
         return matchInfoList;

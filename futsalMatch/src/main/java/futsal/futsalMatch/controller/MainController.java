@@ -10,13 +10,14 @@ import futsal.futsalMatch.configs.IamConfig;
 import futsal.futsalMatch.configs.PlabConfig;
 import futsal.futsalMatch.configs.PuzzleConfig;
 import futsal.futsalMatch.configs.WithConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@Slf4j
+@CrossOrigin(origins = "https://futsalfinder.vercel.app/")
 @RestController
 public class MainController {
     private static List<Requestable> requesters = new ArrayList<>();
@@ -26,7 +27,7 @@ public class MainController {
         requesters.add(new WithRequester(WithConfig.baseUrl));
         requesters.add(new IamRequester(IamConfig.baseUrl));
     }
-    @GetMapping("/matches/{date}")
+    @GetMapping(value = "/matches/{date}", headers = {"Accept=application/json;charset=UTF-8"})
     public List<MatchInfo> showAll(@PathVariable("date") LocalDate date,
                                    @RequestParam(value = "region") Integer region) {
         List<MatchInfo> matchInfoList = new ArrayList<>();
@@ -34,7 +35,7 @@ public class MainController {
             try{
                 matchInfoList.addAll(requester.requestMatchInfo(date, region));
             } catch (Exception e){
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         }
 
@@ -42,8 +43,9 @@ public class MainController {
                 LocalTime.parse(m1.getTime())
                         .compareTo(LocalTime.parse(m2.getTime())));
 
-        if(date.equals(LocalDate.now())){
-            matchInfoList.removeIf(m -> LocalTime.now().isAfter(LocalTime.parse(m.getTime())));
+        ZonedDateTime nowDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        if(date.equals(nowDateTime.toLocalDate())){
+            matchInfoList.removeIf(m -> nowDateTime.toLocalTime().isAfter(LocalTime.parse(m.getTime())));
         }
 
         return matchInfoList;
