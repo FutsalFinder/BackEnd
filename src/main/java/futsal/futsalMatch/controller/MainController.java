@@ -17,7 +17,7 @@ import java.time.*;
 import java.util.*;
 
 @Slf4j
-@CrossOrigin(origins = "https://futsalfinder.vercel.app/")
+@CrossOrigin(origins = {"https://futsalfinder.vercel.app", "https://futsalfinder.co.kr/"})
 @RestController
 public class MainController {
     private static List<Requestable> requesters = new ArrayList<>();
