@@ -45,5 +45,4 @@ jobs:
           script: |
             cd /home/ubuntu/futsal-finder
             pkill -f futsal-finder.jar || true
-            sleep 5
             nohup java -jar futsal-finder.jar > app.log 2>&1 &
