@@ -46,3 +46,4 @@ jobs:
             cd /home/ubuntu/futsal-finder
             pkill -f futsal-finder.jar || true
             nohup java -jar futsal-finder.jar > app.log 2>&1 &
+        continue-on-error: true
