@@ -41,9 +41,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script_stop: true
+          script_stop: false
           script: |
             cd /home/ubuntu/futsal-finder
             pkill -f futsal-finder.jar || true
             nohup java -jar futsal-finder.jar > app.log 2>&1 &
-            wait || true
