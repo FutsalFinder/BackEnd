@@ -3,7 +3,6 @@ package futsal.futsalMatch.service.strategy.request;
 import futsal.futsalMatch.config.platform.PlatformConfig;
 import futsal.futsalMatch.enums.Region;
 import futsal.futsalMatch.exception.UnexpectedResponseStatusException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,18 +17,14 @@ import java.util.stream.IntStream;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class PuzzleRequestStrategy implements RequestStrategy {
-
-    private final RestTemplate restTemplate;
-
     @Override
     public List<Object> request(PlatformConfig config, LocalDate date, Region region) {
         HttpHeaders requestHeaders = buildHttpHeaders();
         JSONObject requestBody = buildRequestBody(config, date, region, requestHeaders);
 
         try{
-            ResponseEntity<String> response = restTemplate.exchange(
+            ResponseEntity<String> response = new RestTemplate().exchange(
                     config.getRequestBaseURL(),
                     HttpMethod.POST,
                     new HttpEntity<>(requestBody.toString(), requestHeaders),
