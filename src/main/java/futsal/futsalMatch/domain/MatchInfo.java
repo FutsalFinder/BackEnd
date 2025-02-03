@@ -1,9 +1,11 @@
-package futsal.futsalMatch.domain.data;
+package futsal.futsalMatch.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MatchInfo {
     private String platform;
     private String date;
