@@ -3,6 +3,7 @@ package futsal.futsalMatch.service.strategy.request;
 import futsal.futsalMatch.config.platform.PlatformConfig;
 import futsal.futsalMatch.enums.Region;
 import futsal.futsalMatch.exception.UnexpectedResponseStatusException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,7 +18,11 @@ import java.util.stream.IntStream;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class WithRequestStrategy implements RequestStrategy {
+
+    private final RestTemplate restTemplate;
+
     @Override
     public List<Object> request(PlatformConfig config, LocalDate date, Region region) {
         if(region == Region.GYEONGGI) {
@@ -32,7 +37,7 @@ public class WithRequestStrategy implements RequestStrategy {
                 .build().toString();
 
         try{
-            ResponseEntity<String> response = new RestTemplate().exchange(
+            ResponseEntity<String> response = restTemplate.exchange(
                     requestUrl,
                     HttpMethod.GET,
                     new HttpEntity<>(new HttpHeaders()),
