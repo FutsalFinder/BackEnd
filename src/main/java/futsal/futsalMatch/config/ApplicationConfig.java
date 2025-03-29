@@ -2,13 +2,16 @@ package futsal.futsalMatch.config;
 
 import futsal.futsalMatch.config.platform.PlabConfig;
 import futsal.futsalMatch.config.platform.PuzzleConfig;
+import futsal.futsalMatch.config.platform.UrbanConfig;
 import futsal.futsalMatch.config.platform.WithConfig;
 import futsal.futsalMatch.service.PlatformRequester;
 import futsal.futsalMatch.service.strategy.request.PlabRequestStrategy;
 import futsal.futsalMatch.service.strategy.request.PuzzleRequestStrategy;
+import futsal.futsalMatch.service.strategy.request.UrbanRequestStrategy;
 import futsal.futsalMatch.service.strategy.request.WithRequestStrategy;
 import futsal.futsalMatch.service.strategy.transform.PlabTransformStrategy;
 import futsal.futsalMatch.service.strategy.transform.PuzzleTransformStrategy;
+import futsal.futsalMatch.service.strategy.transform.UrbanTransformStrategy;
 import futsal.futsalMatch.service.strategy.transform.WithTransformStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +32,10 @@ public class ApplicationConfig {
     private final WithTransformStrategy withTransformStrategy;
     private final WithConfig withConfig;
 
+    private final UrbanRequestStrategy urbanRequestStrategy;
+    private final UrbanTransformStrategy urbanTransformStrategy;
+    private final UrbanConfig urbanConfig;
+
     @Bean
     public PlatformRequester plabRequester() {
         return new PlatformRequester(plabRequestStrategy, plabTransformStrategy, plabConfig);
@@ -43,4 +50,11 @@ public class ApplicationConfig {
     public PlatformRequester withRequester() {
         return new PlatformRequester(withRequestStrategy, withTransformStrategy, withConfig);
     }
+
+    @Bean
+    public PlatformRequester urbanRequester() {
+        return new PlatformRequester(urbanRequestStrategy, urbanTransformStrategy, urbanConfig);
+    }
+
+
 }

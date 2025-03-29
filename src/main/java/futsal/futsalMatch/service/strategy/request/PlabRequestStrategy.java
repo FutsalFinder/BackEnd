@@ -31,7 +31,7 @@ public class PlabRequestStrategy implements RequestStrategy {
                 .queryParam("ordering", "schedule")
                 .build().toString();
 
-        try{
+        try {
             ResponseEntity<String> response = restTemplate.exchange(
                     requestUrl,
                     HttpMethod.GET,
@@ -51,7 +51,7 @@ public class PlabRequestStrategy implements RequestStrategy {
                     .mapToObj(jsonArray::get)
                     .toList();
         } catch (Exception e){
-            log.error("플랩풋볼 요청 실패 : {}", e.getMessage());
+            log.error("플랩풋볼 요청 실패 : {} - {}", e.getClass().getSimpleName(), e.getMessage());
             return List.of();
         }
     }
