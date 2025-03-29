@@ -62,7 +62,7 @@ public class WithRequestStrategy implements RequestStrategy {
                     .mapToObj(jsonArray::get)
                     .toList();
         } catch (Exception e){
-            log.error("위드풋살 요청 실패 : {}", e.getMessage());
+            log.error("위드풋살 요청 실패 : {} - {}", e.getClass().getSimpleName(), e.getMessage());
             return List.of();
         }
     }

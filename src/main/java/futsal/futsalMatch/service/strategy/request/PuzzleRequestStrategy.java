@@ -54,7 +54,7 @@ public class PuzzleRequestStrategy implements RequestStrategy {
                     .mapToObj(jsonArray::get)
                     .toList();
         } catch (Exception e){
-            log.error("퍼즐플레이 요청 실패 : {}", e.getMessage());
+            log.error("퍼즐플레이 요청 실패 : {} - {}", e.getClass().getSimpleName(), e.getMessage());
             return List.of();
         }
     }
