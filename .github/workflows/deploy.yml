@@ -2,11 +2,14 @@ name: Deploy To EC2
 
 on:
   push:
-    branches: [ "main", "ci/cd" ]
+    branches:
+      - ci/cd
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      APP_NAME: futsal-finder
     steps:
       - name: Github Repository 파일 불러오기
         uses: actions/checkout@v4
@@ -17,32 +20,42 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: gradlew 파일 실행 권한 추가
-        run: chmod +x ./gradlew
+      - name: application.yml 파일 만들기
+        run: echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.yml
 
       - name: 테스트 및 빌드하기
-        run: ./gradlew clean build -x test
+        run: ./gradlew clean build
 
-      - name: 빌드된 파일 이름 변경하기
-        run: mv ./build/libs/*SNAPSHOT.jar ./futsal-finder.jar
-
-      - name: SCP로 EC2에 빌드된 파일 전송하기
-        uses: appleboy/scp-action@v0.1.7
+      - name: AWS Resource에 접근할 수 있게 AWS credentials 설정
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          source: futsal-finder.jar
-          target: /home/ubuntu/futsal-finder
+          aws-region: ap-northeast-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: SSH로 EC2에 접속하여 배포 스크립트 실행
+      - name: ECR에 로그인하기
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Docker 이미지 생성
+        run: docker build -t $APP_NAME .
+
+      - name: Docker 이미지에 Tag 붙이기
+        run: docker tag $APP_NAME ${{ steps.login-ecr.outputs.registry }}/$APP_NAME:latest
+
+      - name: ECR에 Docker 이미지 Push하기
+        run: docker push ${{ steps.login-ecr.outputs.registry }}/$APP_NAME:latest
+
+      - name: SSH로 EC2에 접속하기
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script_stop: false
+          script_stop: true
           script: |
-            cd /home/ubuntu/futsal-finder
-            bash deploy.sh
-        continue-on-error: true
+            APP_NAME=${{ env.APP_NAME }}
+            docker stop $APP_NAME || true
+            docker rm $APP_NAME || true
+            docker pull ${{ steps.login-ecr.outputs.registry }}/$APP_NAME:latest
+            docker run -d --name $APP_NAME -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/$APP_NAME:latest
