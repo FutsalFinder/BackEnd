@@ -11,6 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 
 @Service
 @Slf4j
@@ -18,23 +19,24 @@ import java.util.concurrent.CompletableFuture;
 public class PlatformRequestService {
 
     private final List<PlatformRequester> requesters;
+    private final ExecutorService ioThreadPool;
 
     public List<MatchInfo> fetchAllData(LocalDate date, Region region) {
         List<MatchInfo> result = requesters.stream()
-                .map(requester -> CompletableFuture.supplyAsync(() -> {
-                    try {
-                        return requester.request(date, region);
-                    } catch (Exception e) {
-                        log.error("Error in {} - {}", requester.getClass().getSimpleName(), e.getMessage());
-                        return List.<MatchInfo>of();
-                    }
-                }))
+                .map(requester -> CompletableFuture
+                        .supplyAsync(() -> requester.fetch(date, region), ioThreadPool)
+                        .thenApplyAsync(fetchData -> requester.parse(fetchData, date))
+                        .thenApply(requester::transform)
+                        .exceptionally(e -> {
+                            log.error("Error in {} - {}", requester.getClass().getSimpleName(), e.getMessage());
+                            return List.of();
+                        })
+                )
                 .map(CompletableFuture::join)
                 .flatMap(List::stream)
                 .filter(m -> isValidTime(m.getTime()))
                 .sorted(Comparator.comparing(m -> LocalTime.parse(m.getTime())))
                 .toList();
-
         return removeExpiredMatch(date, result);
     }
 

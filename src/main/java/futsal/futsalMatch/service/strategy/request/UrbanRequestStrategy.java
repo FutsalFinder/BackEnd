@@ -53,6 +53,30 @@ public class UrbanRequestStrategy implements RequestStrategy {
         }
     }
 
+    @Override
+    public String fetch(PlatformConfig config, LocalDate date, Region region) {
+        HttpHeaders requestHeaders = buildHttpHeaders();
+        String requestBody = "mode=get_goods_list&date=" + date.toString() + "&area=11";
+
+        try{
+            ResponseEntity<String> response = restTemplate.exchange(
+                    config.getRequestBaseURL(),
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestBody, requestHeaders),
+                    String.class
+            );
+
+            if(response.getStatusCode() != HttpStatus.OK){
+                throw new UnexpectedResponseStatusException("Unexpected response status: " + response.getStatusCode());
+            }
+
+            return response.getBody();
+        } catch (Exception e){
+            log.error("어반풋볼 요청 실패 : {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return "";
+        }
+    }
+
     private HttpHeaders buildHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "*/*");

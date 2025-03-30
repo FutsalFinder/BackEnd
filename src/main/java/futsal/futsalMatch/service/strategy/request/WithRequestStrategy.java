@@ -66,4 +66,36 @@ public class WithRequestStrategy implements RequestStrategy {
             return List.of();
         }
     }
+
+    @Override
+    public String fetch(PlatformConfig config, LocalDate date, Region region) {
+        if(region == Region.GYEONGGI) {
+            return "";
+        }
+
+        String requestUrl = UriComponentsBuilder.fromHttpUrl(config.getRequestBaseURL())
+                .queryParam("cmd", "search-info")
+                .queryParam("day", date.toString())
+                .queryParam("area_code", "0")
+                .queryParam("member_code", "all")
+                .build().toString();
+
+        try{
+            ResponseEntity<String> response = restTemplate.exchange(
+                    requestUrl,
+                    HttpMethod.GET,
+                    new HttpEntity<>(new HttpHeaders()),
+                    String.class
+            );
+
+            if(response.getStatusCode() != HttpStatus.OK){
+                throw new UnexpectedResponseStatusException("Unexpected response status: " + response.getStatusCode());
+            }
+
+            return response.toString();
+        } catch (Exception e){
+            log.error("위드풋살 요청 실패 : {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return "";
+        }
+    }
 }
