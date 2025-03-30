@@ -14,8 +14,8 @@ public class RestTemplateConfig {
     @Bean
     public RestTemplate restTemplate() {
         RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectionRequestTimeout(Timeout.ofSeconds(5)) // 연결 타임아웃
-                .setResponseTimeout(Timeout.ofSeconds(5))  // 읽기 타임아웃
+                .setConnectionRequestTimeout(Timeout.ofSeconds(10)) // 연결 타임아웃
+                .setResponseTimeout(Timeout.ofSeconds(10))  // 읽기 타임아웃
                 .build();
 
         CloseableHttpClient httpClient = HttpClients.custom()
