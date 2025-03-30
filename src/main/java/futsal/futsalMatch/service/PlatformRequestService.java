@@ -25,7 +25,7 @@ public class PlatformRequestService {
         List<MatchInfo> result = requesters.stream()
                 .map(requester -> CompletableFuture
                         .supplyAsync(() -> requester.fetch(date, region), ioThreadPool)
-                        .thenApplyAsync(fetchData -> requester.parse(fetchData, date))
+                        .thenApply(fetchData -> requester.parse(fetchData, date))
                         .thenApply(requester::transform)
                         .exceptionally(e -> {
                             log.error("Error in {} - {}", requester.getClass().getSimpleName(), e.getMessage());
