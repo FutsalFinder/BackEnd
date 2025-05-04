@@ -32,6 +32,7 @@ public class PlatformRequestService {
                             return List.of();
                         })
                 )
+                .parallel()
                 .map(CompletableFuture::join)
                 .flatMap(List::stream)
                 .filter(m -> isValidTime(m.getTime()))

@@ -11,6 +11,6 @@ public class AsyncConfig {
 
     @Bean
     public ExecutorService ioThreadPool() {
-        return Executors.newFixedThreadPool(50);
+        return Executors.newFixedThreadPool(100);
     }
 }
