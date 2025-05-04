@@ -59,6 +59,30 @@ public class PuzzleRequestStrategy implements RequestStrategy {
         }
     }
 
+    @Override
+    public String fetch(PlatformConfig config, LocalDate date, Region region) {
+        HttpHeaders requestHeaders = buildHttpHeaders();
+        JSONObject requestBody = buildRequestBody(config, date, region, requestHeaders);
+
+        try{
+            ResponseEntity<String> response = restTemplate.exchange(
+                    config.getRequestBaseURL(),
+                    HttpMethod.POST,
+                    new HttpEntity<>(requestBody.toString(), requestHeaders),
+                    String.class
+            );
+
+            if(response.getStatusCode() != HttpStatus.OK){
+                throw new UnexpectedResponseStatusException("Unexpected response status: " + response.getStatusCode());
+            }
+
+            return response.getBody();
+        } catch (Exception e){
+            log.error("퍼즐플레이 요청 실패 : {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return "";
+        }
+    }
+
     private HttpHeaders buildHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "*/*");

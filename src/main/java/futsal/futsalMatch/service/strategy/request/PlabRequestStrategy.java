@@ -55,4 +55,32 @@ public class PlabRequestStrategy implements RequestStrategy {
             return List.of();
         }
     }
+
+    @Override
+    public String fetch(PlatformConfig config, LocalDate date, Region region) {
+        String requestUrl = UriComponentsBuilder.fromHttpUrl(config.getRequestBaseURL())
+                .queryParam("sch", date)
+                .queryParam("region", "1") //TODO region 값 변환
+                .queryParam("page_size", "700")
+                .queryParam("ordering", "schedule")
+                .build().toString();
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    requestUrl,
+                    HttpMethod.GET,
+                    new HttpEntity<>(new HttpHeaders()),
+                    String.class
+            );
+
+            if(response.getStatusCode() != HttpStatus.OK){
+                throw new UnexpectedResponseStatusException("Unexpected response status: " + response.getStatusCode());
+            }
+
+            return response.getBody();
+        } catch (Exception e){
+            log.error("플랩풋볼 요청 실패 : {} - {}", e.getClass().getSimpleName(), e.getMessage());
+            return "";
+        }
+    }
 }
