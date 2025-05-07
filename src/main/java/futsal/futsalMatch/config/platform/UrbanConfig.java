@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UrbanConfig implements PlatformConfig {
     private final String platform = "URBAN";
+    private final String fullNameInKorean = "어반풋볼";
     private final String date = "span.date";
     private final String time = "li.time > span";
     private final String region = "";
@@ -23,4 +24,6 @@ public class UrbanConfig implements PlatformConfig {
     private final String link = "data_id";
     private final String requestBaseURL = "https://urbanfootball.co.kr/result/result_get_data.php";
     private final String matchLinkBaseURL = "https://urbanfootball.co.kr/goods/goods_view.html?goods_no=";
+
+    private final int priority = 4;
 }
