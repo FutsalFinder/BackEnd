@@ -1,7 +1,9 @@
-window.onload = () => {
-    updateDatePage();
+function initializeDateUI() {
     resizeDayButtons();
+    updateDatePage();
+}
 
+function setupDateSelection() {
     document.querySelectorAll(".day").forEach(btn => {
         btn.addEventListener("click", () => {
             document.querySelectorAll(".day").forEach(b => b.classList.remove("selected"));
@@ -9,23 +11,21 @@ window.onload = () => {
             fetchMatches(btn.dataset.date);
         });
     });
+}
 
-    // 최초 선택
+function selectFirstDateIfNone() {
     const first = document.querySelector(".day");
     if (first) {
         first.classList.add("selected");
         fetchMatches(first.dataset.date);
     }
-};
+}
 
-window.addEventListener("resize", () => {
-    resizeDayButtons();
-    updateDatePage(); // 이동 위치도 다시 맞추기
-});
-
+// 실행 시점
 window.addEventListener("DOMContentLoaded", () => {
-    resizeDayButtons();
-    updateDatePage();
+    initializeDateUI();
+    setupDateSelection();
+    selectFirstDateIfNone();
 });
 
-
+window.addEventListener("resize", initializeDateUI);

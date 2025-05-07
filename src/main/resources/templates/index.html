@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>FutsalFinder</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/date.css}">
+    <link rel="stylesheet" th:href="@{/css/filter.css}">
 </head>
 <body>
 
@@ -13,9 +14,11 @@
     <div class="date-button-wrapper">
         <div id="dateButtonList" class="date-buttons">
             <th:block th:each="day : ${days}">
-                <button class="day" th:data-date="${day.date}">
-                    <span class="day-date" th:text="${day['day-date']}"></span>
-                    <span class="day-week" th:text="${day['day-week']}"></span>
+                <button class="day"
+                        th:data-date="${day.date}"
+                        th:classappend="${day.dayWeek} == '토' ? ' saturday' : ( ${day.dayWeek} == '일' ? ' sunday' : '' )">
+                    <span class="day-date" th:text="${day.dayOfMonth}"></span>
+                    <span class="day-week" th:text="${day.dayWeek}"></span>
                 </button>
             </th:block>
         </div>
@@ -26,34 +29,68 @@
 
 <div class="filter-container">
     <select id="region">
-        <option value="">지역</option>
         <option value="서울">서울</option>
         <option value="경기">경기</option>
+        <option value="">모든지역</option>
     </select>
 
-    <select id="gender">
-        <option value="">성별</option>
-        <option value="남자">남자</option>
-        <option value="여자">여자</option>
-        <option value="남녀모두">남녀모두</option>
-    </select>
+    <!-- 필터 열기 버튼들 -->
+    <button class="filter-chip" data-modal-target="#genderModal">성별</button>
+    <button class="filter-chip" data-modal-target="#platformModal">플랫폼</button>
 
-    <select id="platform">
-        <option value="">플랫폼</option>
-        <option value="PLAB">플랩</option>
-        <option value="PUZZLE">퍼즐</option>
-        <option value="PUZZLE">위드</option>
-        <option value="PUZZLE">아이엠</option>
-        <option value="PUZZLE">어반</option>
-    </select>
+    <!-- 성별 모달-->
+    <div id="genderModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>성별</span>
+                <button id="closeGenderModal" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <label><input type="checkbox" value="남자" checked>남자</label>
+                <hr />
+                <label><input type="checkbox" value="여자" checked>여자</label>
+                <hr />
+                <label><input type="checkbox" value="남녀 모두" checked>남녀 모두</label>
+            </div>
+            <div class="modal-footer">
+                <button id="applyGenderFilter" class="apply-btn">적용하기</button>
+            </div>
+        </div>
+    </div>
 
-    <label><input type="checkbox" id="hideFull">마감 가리기</label>
+    <!-- 플랫폼 모달-->
+    <div id="platformModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>플랫폼</span>
+                <button id="closePlatformModal" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <th:block th:each="platform : ${platforms}">
+                    <label>
+                        <input type="checkbox"
+                               th:value="${platform.platform}"
+                               checked>
+                        <span th:text="${platform.fullNameInKorean}">플랫폼명</span>
+                    </label>
+                    <hr />
+                </th:block>
+            </div>
+            <div class="modal-footer">
+                <button id="applyPlatformFilter" class="apply-btn">적용하기</button>
+            </div>
+        </div>
+    </div>
+
+    <button id="hideFullToggle" class="hide-btn">마감 가리기</button>
 </div>
 
 <div id="match-list">
     <!-- JS가 JSON 받아서 여기에 동적 렌더링 -->
 </div>
 
-<script th:src="@{/js/match.js}"></script>
+<script th:src="@{/js/home.js}"></script>
+<script th:src="@{/js/date.js}"></script>
+<script th:src="@{/js/filter.js}"></script>
 </body>
 </html>
