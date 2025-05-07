@@ -13,23 +13,21 @@ function getStepSize() {
     return step;
 }
 
-function updateDatePage() {
-    const allButtons = document.querySelectorAll("#dateButtonList .day");
-    const container = document.querySelector("#dateButtonList");
-
+function scrollToIndex(index) {
+    const wrapper = document.querySelector(".date-button-wrapper");
     const step = getStepSize();
-    const offset = currentIndex * step;
-    container.style.transform = `translateX(-${offset}px)`;
+    const offset = index * step;
 
-    const maxIndex = allButtons.length - itemsPerPage;
-    document.getElementById("prevBtn").disabled = currentIndex <= 0;
-    document.getElementById("nextBtn").disabled = currentIndex >= maxIndex;
+    wrapper.scrollTo({
+        left: offset,
+        behavior: 'smooth'
+    });
 }
 
 document.getElementById("prevBtn").addEventListener("click", () => {
     if (currentIndex > 0) {
         currentIndex -= itemsPerSlide;
-        updateDatePage();
+        scrollToIndex(currentIndex)
     }
 });
 
@@ -38,7 +36,7 @@ document.getElementById("nextBtn").addEventListener("click", () => {
     const maxIndex = allButtons.length - itemsPerPage;
     if (currentIndex < maxIndex) {
         currentIndex += itemsPerSlide;
-        updateDatePage();
+        scrollToIndex(currentIndex)
     }
 });
 

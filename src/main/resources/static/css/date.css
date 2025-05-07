@@ -11,8 +11,18 @@
 
 /* 날짜 버튼 영역 감싸는 래퍼 (보이는 영역) */
 .date-button-wrapper {
-    overflow: hidden;                 /* 넘치는 날짜 버튼은 가림 */
-    width: 880px;                     /* 정확히 버튼 7개 + gap 기준으로 맞춘 너비 */
+    display: flex;                         /* flex 유지 */
+    overflow-x: auto;                      /* 수평 스크롤 허용 */
+    scroll-snap-type: x mandatory;         /* 좌우 스냅 설정 */
+    -webkit-overflow-scrolling: touch;     /* 모바일 부드러운 스크롤 */
+    scroll-behavior: smooth;               /* 부드러운 이동 */
+
+    scrollbar-width: none;   /* Firefox용 스크롤 숨김 */
+    -ms-overflow-style: none; /* IE용 스크롤 숨김 */
+}
+
+.date-button-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
 }
 
 /* 실제 날짜 버튼들이 배치되는 줄 */
@@ -25,19 +35,20 @@
 
 /* 개별 날짜 버튼 */
 .date-buttons button.day {
-    display: flex;                    /* 내부 요소(.day-date, .day-week) 가로 → 세로 정렬 */
+    flex: 0 0 auto;                        /* 스냅을 위해 고정 너비 */
+    scroll-snap-align: start;             /* 버튼의 시작 지점에 스냅 */
+    display: flex;
     flex-direction: column;
-    justify-content: center;          /* 수직 중앙 정렬 */
-    align-items: center;              /* 수평 중앙 정렬 */
-    width: 100px;                     /* 버튼 가로 크기 */
-    height: 80px;                     /* 버튼 세로 크기 */
-    border: none;                     /* 테두리 없음 */
-
-    border-radius: 9999px; /* ✅ 완전한 타원형 / 캡슐형 */
-    background-color: transparent;    /* 배경 투명 */
-    cursor: pointer;                  /* 클릭 가능하게 손가락 커서 */
-    font-family: inherit;             /* 전체 폰트 상속 */
-    line-height: 1.1;                 /* 줄간격 설정 */
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 80px;
+    border: none;
+    border-radius: 9999px;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1.1;
     padding: 0;
 }
 

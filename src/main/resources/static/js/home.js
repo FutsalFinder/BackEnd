@@ -1,6 +1,6 @@
 function initializeDateUI() {
     resizeDayButtons();
-    updateDatePage();
+    scrollToIndex(0);
 }
 
 function setupDateSelection() {
