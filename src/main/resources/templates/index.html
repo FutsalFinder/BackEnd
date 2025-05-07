@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FutsalFinder</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="date-nav-container">
+    <button id="prevBtn" class="arrow">&lt;</button>
+
+    <div class="date-button-wrapper">
+        <div id="dateButtonList" class="date-buttons">
+            <th:block th:each="day : ${days}">
+                <button class="day" th:data-date="${day.date}">
+                    <span class="day-date" th:text="${day['day-date']}"></span>
+                    <span class="day-week" th:text="${day['day-week']}"></span>
+                </button>
+            </th:block>
+        </div>
+    </div>
+
+    <button id="nextBtn" class="arrow">&gt;</button>
+</div>
+
+<div class="filter-container">
+    <select id="region">
+        <option value="">지역</option>
+        <option value="서울">서울</option>
+        <option value="경기">경기</option>
+    </select>
+
+    <select id="gender">
+        <option value="">성별</option>
+        <option value="남자">남자</option>
+        <option value="여자">여자</option>
+        <option value="남녀모두">남녀모두</option>
+    </select>
+
+    <select id="platform">
+        <option value="">플랫폼</option>
+        <option value="PLAB">플랩</option>
+        <option value="PUZZLE">퍼즐</option>
+        <option value="PUZZLE">위드</option>
+        <option value="PUZZLE">아이엠</option>
+        <option value="PUZZLE">어반</option>
+    </select>
+
+    <label><input type="checkbox" id="hideFull">마감 가리기</label>
+</div>
+
+<div id="match-list">
+    <!-- JS가 JSON 받아서 여기에 동적 렌더링 -->
+</div>
+
+<script th:src="@{/js/match.js}"></script>
+</body>
+</html>
