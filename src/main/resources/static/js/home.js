@@ -6,6 +6,8 @@ function fetchMatches(date) {
     if(isFetching) return;
     isFetching = true;
 
+    document.getElementById("loadingOverlay").style.display = "flex"; // 로딩 화면 표시
+
     const region = document.getElementById("region").value;
 
     const url = `/matches/${encodeURIComponent(date)}?region=1`;
@@ -27,6 +29,7 @@ function fetchMatches(date) {
         })
         .finally(() => {
             isFetching = false;
+            document.getElementById("loadingOverlay").style.display = "none"; // 로딩 화면 해제
         });
 }
 

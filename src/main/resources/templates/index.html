@@ -5,8 +5,14 @@
     <title>FutsalFinder</title>
     <link rel="stylesheet" th:href="@{/css/date.css}">
     <link rel="stylesheet" th:href="@{/css/filter.css}">
+    <link rel="stylesheet" th:href="@{/css/loading.css}">
 </head>
 <body>
+
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+    <span>로딩 중...</span>
+</div>
 
 <div class="date-nav-container">
     <button id="prevBtn" class="arrow">&lt;</button>
