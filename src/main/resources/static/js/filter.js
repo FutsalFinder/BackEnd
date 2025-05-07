@@ -1,6 +1,5 @@
 const filterState = {}; // ex: { gender: { all: [...], unchecked: [...] }, platform: { ... } }
 
-
 // 필터 상태 초기화 (최초 1회)
 function initFilterState(modalId) {
     const modal = document.getElementById(modalId);
@@ -85,12 +84,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveFilterState(modal.id); // 상태 저장
                 modal.classList.remove("active");
 
-                // 필요 시 여기에 실제 필터링 호출
+                renderMatches();
                 console.log(`[${modal.id}] 필터 적용됨:`, getActiveValues(modal.id));
             }
         });
     });
 })
+
+function applyFilters(matchList) {
+    const activeGenders = getActiveValues("genderModal");
+    const activePlatforms = getActiveValues("platformModal");
+    const hideFull = document.getElementById("hideFullToggle").classList.contains("active");
+
+    if(activeGenders.length === 0 || activePlatforms.length === 0) return [];
+
+    return matchList
+        .filter(match => activeGenders.includes(match.sex))
+        .filter(match => activePlatforms.includes(match.platform))
+        .filter(match => !hideFull || !match.isFull);
+}
 
 // 현재 적용된 항목만 가져오는 헬퍼 함수
 function getActiveValues(modalId) {
@@ -102,8 +114,6 @@ function getActiveValues(modalId) {
 document.getElementById("hideFullToggle").addEventListener("click", function () {
     this.classList.toggle("active");
 
-    const isActive = this.classList.contains("active");
-    // 실제 필터링 로직이 있다면 여기서 호출
-    // 예: toggleFullMatches(isActive);
+    renderMatches();
 });
 
