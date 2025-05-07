@@ -1,36 +1,29 @@
 package futsal.futsalMatch.controller;
 
+import futsal.futsalMatch.service.CalendarService;
+import futsal.futsalMatch.service.PlatformConfigService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Controller
+@RequiredArgsConstructor
 public class ViewController {
+
+    private final CalendarService calendarService;
+    private final PlatformConfigService platformConfigService;
 
     @GetMapping("/")
     public String index(Model model) {
-        LocalDate today = LocalDate.now();
-        List<Map<String, String>> days = new ArrayList<>();
+        LocalDate today = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDate();
+        model.addAttribute("days", calendarService.getNextTwoWeeksDays(today));
+        model.addAttribute("platforms", platformConfigService.getPlatformInfos());
 
-        for (int i = 0; i < 14; i++) {
-            LocalDate date = today.plusDays(i);
-            String dayOfTheWeek = date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREAN).substring(0, 1);
-
-            days.add(Map.of(
-                    "date", date.toString(),  // yyyy-MM-dd
-                    "day-date", String.valueOf(date.getDayOfMonth()),
-                    "day-week", dayOfTheWeek
-            ));
-        }
-
-        model.addAttribute("days", days);
         return "index";
     }
 }
