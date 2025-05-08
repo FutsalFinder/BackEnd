@@ -25,5 +25,9 @@ public class PlabConfig implements PlatformConfig {
     private final String requestBaseURL = "https://www.plabfootball.com/api/v2/integrated-matches/";
     private final String matchLinkBaseURL = "https://www.plabfootball.com/match/";
 
+    // Platform Specific
+    public static String productType = "product_type";
+    public static String guestMatchLinkBaseURL = "https://www.plabfootball.com/guest-match/";
+
     private final int priority = 1;
 }
