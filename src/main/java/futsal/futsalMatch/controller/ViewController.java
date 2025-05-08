@@ -1,5 +1,6 @@
 package futsal.futsalMatch.controller;
 
+import futsal.futsalMatch.enums.Region;
 import futsal.futsalMatch.service.CalendarService;
 import futsal.futsalMatch.service.PlatformConfigService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ public class ViewController {
         LocalDate today = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDate();
         model.addAttribute("days", calendarService.getNextTwoWeeksDays(today));
         model.addAttribute("platforms", platformConfigService.getPlatformInfos());
+        model.addAttribute("regions", Region.values());
+        model.addAttribute("defaultRegion", Region.SEOUL);
 
         return "index";
     }

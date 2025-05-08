@@ -22,8 +22,8 @@ public class PlatformRequestController {
     @GetMapping(value = "/matches/{date}", headers = {"Accept=application/json;charset=UTF-8"})
     public ResponseEntity<List<MatchInfo>> getMatchInfo(
             @PathVariable("date") LocalDate date,
-            @RequestParam(value = "region") Integer region
+            @RequestParam(value = "region") int region
     ) {
-        return ResponseEntity.ok(platformRequestService.fetchAllData(date, Region.SEOUL));
+        return ResponseEntity.ok(platformRequestService.fetchAllData(date, Region.fromValue(region)));
     }
 }

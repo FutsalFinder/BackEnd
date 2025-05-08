@@ -1,4 +1,5 @@
-const baseURL = "https://d3sycde725g6va.cloudfront.net"
+//const baseURL = "https://d3sycde725g6va.cloudfront.net"
+const baseURL = "http://localhost:8080"
 let allMatches = [];
 let isFetching = false;
 
@@ -10,7 +11,7 @@ function fetchMatches(date) {
 
     const region = document.getElementById("region").value;
 
-    const url = `${baseURL}/matches/${encodeURIComponent(date)}?region=0`;
+    const url = `${baseURL}/matches/${encodeURIComponent(date)}?region=${encodeURIComponent(region)}`;
 
     fetch(url)
         .then(response => {
@@ -110,6 +111,21 @@ function setupDateSelection() {
     });
 }
 
+function setupRegionSelection() {
+    const regionSelect = document.getElementById("region");
+
+    regionSelect.addEventListener("change", () => {
+        if (isFetching) return;
+
+        // 현재 선택된 날짜 요소에서 date 값을 추출
+        const selectedDayBtn = document.querySelector(".day.selected");
+        if (!selectedDayBtn) return;
+
+        // 선택한 날짜 기준으로 새 region으로 fetch
+        fetchMatches(selectedDayBtn.dataset.date);
+    });
+}
+
 function selectFirstDate() {
     const first = document.querySelector(".day");
     if (first) {
@@ -121,6 +137,7 @@ function selectFirstDate() {
 window.addEventListener("DOMContentLoaded", () => {
     initializeDateUI();
     setupDateSelection();
+    setupRegionSelection();
     selectFirstDate();
 });
 

@@ -35,10 +35,12 @@
 </div>
 
 <div class="filter-container">
-    <select id="region">
-        <option value="서울">서울</option>
-        <option value="경기">경기</option>
-        <option value="">모든지역</option>
+    <select id="region" name="region">
+        <option th:each="region : ${regions}"
+                th:value="${region.value}"
+                th:text="${region.name}"
+                th:selected="${region == defaultRegion}">
+        </option>
     </select>
 
     <!-- 필터 열기 버튼들 -->
