@@ -1,5 +1,3 @@
-//const baseURL = "https://d3sycde725g6va.cloudfront.net"
-const baseURL = "http://localhost:8080"
 let allMatches = [];
 let isFetching = false;
 
@@ -11,7 +9,7 @@ function fetchMatches(date) {
 
     const region = document.getElementById("region").value;
 
-    const url = `${baseURL}/matches/${encodeURIComponent(date)}?region=${encodeURIComponent(region)}`;
+    const url = `/matches/${encodeURIComponent(date)}?region=${encodeURIComponent(region)}`;
 
     fetch(url)
         .then(response => {

@@ -1,6 +1,6 @@
 const filterState = {}; // ex: { gender: { all: [...], unchecked: [...] }, platform: { ... } }
 
-// 필터 상태 초기화 (최초 1회)
+// 필터 상태 초기화 (최초 1회), 전역 필터링 상태 저장 -> renderMatches() 호출 시 전역 필터 상태 기반 필터링
 function initFilterState(modalId) {
     const modal = document.getElementById(modalId);
     const checkboxes = modal.querySelectorAll("input[type=checkbox]");
@@ -15,6 +15,7 @@ function renderFilterState(modalId) {
     const state = filterState[modalId];
     const modal = document.getElementById(modalId);
     if (!state) return;
+    if (!modal) return;
 
     //unchecked 에 포함되지 않은 값들만 체크한다.
     modal.querySelectorAll("input[type=checkbox]").forEach(cb => {

@@ -57,6 +57,7 @@
     font-size: 15px;                  /* 글자 크기 */
     font-weight: bold;               /* 굵은 글씨 */
     line-height: 1;                  /* 줄간격 제거로 위아래 밀착 */
+    color: black;
 }
 
 /* 요일 (ex: 화, 수 등) */
@@ -64,19 +65,22 @@
     font-size: 12px;                  /* 글자 크기 작게 */
     opacity: 0.8;                     /* 살짝 연하게 표시 */
     margin-top: 1px;                  /* 위 숫자와 약간 띄우기 */
-    line-height: 1;                   /* 줄간격 없음 */
+    line-height: 1;                   /* 줄간격 없음 */;
+    font-weight: bold;               /* 굵은 글씨 */
+    color: black;
 }
 
+
 /* 토요일: 파란색 */
-.date-buttons button.day.saturday {
+.date-buttons button.day.saturday .day-date,
+.date-buttons button.day.saturday .day-week {
     color: #0000FF;
-    font-weight: bold;
 }
 
 /* 일요일: 빨간색 */
-.date-buttons button.day.sunday {
+.date-buttons button.day.sunday .day-date,
+.date-buttons button.day.sunday .day-week {
     color: #ff0000;
-    font-weight: bold;
 }
 
 /* 선택된 날짜 버튼 스타일 */
