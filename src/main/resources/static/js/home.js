@@ -1,4 +1,4 @@
-const baseURL = "d3sycde725g6va.cloudfront.net"
+const baseURL = "https://d3sycde725g6va.cloudfront.net"
 let allMatches = [];
 let isFetching = false;
 
@@ -10,7 +10,7 @@ function fetchMatches(date) {
 
     const region = document.getElementById("region").value;
 
-    const url = `/matches/${encodeURIComponent(date)}?region=1`;
+    const url = `${baseURL}/matches/${encodeURIComponent(date)}?region=0`;
 
     fetch(url)
         .then(response => {
@@ -20,7 +20,7 @@ function fetchMatches(date) {
         .then(data => {
             allMatches = data.map(match => ({
                 ...match,
-                isFull: parseInt(match.cur_player) >= parseInt(match.max_player)
+                isFull: parseInt(match.cur_player) >= parseInt(match.max_player) //마감 여부 추가. '마감가리기' 필터용
             }));
             renderMatches();
         })
@@ -46,11 +46,42 @@ function renderMatches() {
     }
 
     filtered.forEach(match => {
-        const div = document.createElement("div");
-        div.className = "match-item";
-        div.innerText = `${match.time} - ${match.platform} @ ${match.location}`;
-        container.appendChild(div);
+        container.appendChild(createMatchElement(match));
     });
+}
+
+function createMatchElement(match) {
+    const level = match.level ?? "";
+    const matchType = match.match_type ?? ""
+    const matchVs = match.match_vs ? `${match.match_vs}vs${match.match_vs}` : "";
+    const curPlayer = match.cur_player ?? "?"
+    const maxPlayer = match.max_player ?? "?"
+
+    const div = document.createElement("a");
+    div.className = "match-item";
+    div.href = `${match.link}`; // 예시: 이동할 링크
+    div.target = "_blank";                     // 새 탭에서 열기
+    div.rel = "noopener noreferrer";           // 보안 및 성능을 위한 권장 설정
+    div.style.textDecoration = "none";
+    div.style.color = "inherit";
+
+    div.innerHTML = `
+        <div class="match-left">
+            <div class="match-time">${match.time}</div>
+            <div class="platform-badge ${match.platform}">${match.platform}</div>
+        </div>
+
+        <div class="match-center">
+            <div class="match-title">${match.match_title}</div>
+            <div class="match-detail">${match.sex}·${level}·${matchType}·${matchVs}</div>
+        </div>
+
+        <div class="match-right">
+            <div class="match-player-count">${curPlayer} / ${maxPlayer}</div>
+        </div>
+    `;
+
+    return div;
 }
 
 function initializeDateUI() {
