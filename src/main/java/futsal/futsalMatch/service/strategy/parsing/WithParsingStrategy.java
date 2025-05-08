@@ -12,6 +12,10 @@ import java.util.stream.IntStream;
 public class WithParsingStrategy implements ParsingStrategy {
     @Override
     public List<Object> parse(String fetchData, LocalDate date) {
+        if(fetchData == null || fetchData.isEmpty()) {
+            return List.of();
+        }
+
         JSONObject jsonData = new JSONObject(fetchData.substring(11)); //starts with "200 OK OK,{JsonData...}"
 
         if(!jsonData.has("block_list")) {

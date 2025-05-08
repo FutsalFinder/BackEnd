@@ -82,7 +82,7 @@ public class PuzzleTransformStrategy extends TransformStrategy {
     @Override
     protected String resolveMatchTitle(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.getJSONObject("ground_info").optString(config.getMatchTitle());
+        return jsonObject.getJSONObject("ground_info").optString(config.getMatchTitle(), null);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class PuzzleTransformStrategy extends TransformStrategy {
     @Override
     protected String resolveMatchVS(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getMatchVS());
+        return jsonObject.optString(config.getMatchVS(), null);
     }
 
     @Override
@@ -153,18 +153,18 @@ public class PuzzleTransformStrategy extends TransformStrategy {
     @Override
     protected String resolveMaxPlayer(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.getJSONObject("personnel").optString(config.getMaxPlayer()); //personnel {min: 10, max: 18}
+        return jsonObject.getJSONObject("personnel").optString(config.getMaxPlayer(), null); //personnel {min: 10, max: 18}
     }
 
     @Override
     protected String resolvePrice(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getPrice());
+        return jsonObject.optString(config.getPrice(), null);
     }
 
     @Override
     protected String resolveLink(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return config.getMatchLinkBaseURL() + jsonObject.optString(config.getLink());
+        return config.getMatchLinkBaseURL() + jsonObject.optString(config.getLink(), null);
     }
 }

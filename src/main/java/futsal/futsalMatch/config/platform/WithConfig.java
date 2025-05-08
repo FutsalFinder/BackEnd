@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WithConfig implements PlatformConfig {
     private final String platform = "WITH";
+    private final String fullNameInKorean = "위드풋살";
     private final String date = "date";
     private final String time = "play_time";
     private final String region = "mem_area";
@@ -23,4 +24,6 @@ public class WithConfig implements PlatformConfig {
     private final String link = "idx";
     private final String requestBaseURL = "https://withfutsal.com/ajaxProcSocialMatch.php";
     private final String matchLinkBaseURL = "https://withfutsal.com/Sub/ground.php?block_idx=";
+
+    private final int priority = 3;
 }

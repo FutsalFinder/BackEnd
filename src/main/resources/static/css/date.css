@@ -1,0 +1,114 @@
+/* 날짜 네비게이션 바 전체 컨테이너 */
+.date-nav-container {
+    display: flex;                     /* 가로 방향으로 아이템 배치 (화살표 + 날짜 버튼) */
+    align-items: center;              /* 수직 중앙 정렬 */
+    justify-content: space-between;   /* 좌우 화살표는 고정, 가운데 날짜 영역은 유동 */
+    max-width: 1000px;                /* 전체 최대 폭 제한 */
+    margin: 0 auto 16px auto;         /* 가운데 정렬 + 아래 여백 */
+    padding: 0 16px;                  /* 좌우 패딩 */
+    gap: 12px;                        /* 화살표와 버튼 사이 간격 */
+}
+
+/* 날짜 버튼 영역 감싸는 래퍼 (보이는 영역) */
+.date-button-wrapper {
+    display: flex;                         /* flex 유지 */
+    overflow-x: auto;                      /* 수평 스크롤 허용 */
+    scroll-snap-type: x mandatory;         /* 좌우 스냅 설정 */
+    -webkit-overflow-scrolling: touch;     /* 모바일 부드러운 스크롤 */
+    scroll-behavior: smooth;               /* 부드러운 이동 */
+
+    scrollbar-width: none;   /* Firefox용 스크롤 숨김 */
+    -ms-overflow-style: none; /* IE용 스크롤 숨김 */
+}
+
+.date-button-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+}
+
+/* 실제 날짜 버튼들이 배치되는 줄 */
+.date-buttons {
+    display: flex;                    /* 날짜 버튼들을 가로로 배치 */
+    gap: 30px;                        /* 각 버튼 사이 간격 */
+    transition: transform 0.2s ease;  /* 좌우 이동 애니메이션 (슬라이드 효과) */
+    min-width: fit-content;           /* 자식 크기만큼 너비 자동 확장 */
+}
+
+/* 개별 날짜 버튼 */
+.date-buttons button.day {
+    flex: 0 0 auto;                        /* 스냅을 위해 고정 너비 */
+    scroll-snap-align: start;             /* 버튼의 시작 지점에 스냅 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 80px;
+    border: none;
+    border-radius: 9999px;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1.1;
+    padding: 0;
+}
+
+/* 날짜 숫자 (ex: 6, 10 등) */
+.date-buttons button.day .day-date {
+    font-size: 15px;                  /* 글자 크기 */
+    font-weight: bold;               /* 굵은 글씨 */
+    line-height: 1;                  /* 줄간격 제거로 위아래 밀착 */
+    color: black;
+}
+
+/* 요일 (ex: 화, 수 등) */
+.date-buttons button.day .day-week {
+    font-size: 12px;                  /* 글자 크기 작게 */
+    opacity: 0.8;                     /* 살짝 연하게 표시 */
+    margin-top: 1px;                  /* 위 숫자와 약간 띄우기 */
+    line-height: 1;                   /* 줄간격 없음 */;
+    font-weight: bold;               /* 굵은 글씨 */
+    color: black;
+}
+
+
+/* 토요일: 파란색 */
+.date-buttons button.day.saturday .day-date,
+.date-buttons button.day.saturday .day-week {
+    color: #0000FF;
+}
+
+/* 일요일: 빨간색 */
+.date-buttons button.day.sunday .day-date,
+.date-buttons button.day.sunday .day-week {
+    color: #ff0000;
+}
+
+/* 선택된 날짜 버튼 스타일 */
+.date-buttons button.day.selected {
+    background-color: #007bff;        /* 파란색 배경 */
+    color: white;                     /* 텍스트 흰색 */
+}
+
+/* 좌우 화살표 버튼 */
+.arrow {
+    width: 32px;                      /* 크기 고정 */
+    height: 32px;
+    font-size: 24px;                  /* 화살표 기호 크게 보이게 */
+    background: none;                 /* 배경 없음 */
+    border: none;                     /* 테두리 없음 */
+    color: #888;                      /* 기본 회색 */
+    cursor: pointer;                  /* 커서 포인터로 변경 */
+}
+
+/* 비활성화된 화살표 버튼 */
+.arrow:disabled {
+    color: #ccc;                      /* 더 연한 색상으로 비활성 표시 */
+    cursor: default;                  /* 커서 기본으로 변경 (포인터 아님) */
+}
+
+
+
+
+
+
+

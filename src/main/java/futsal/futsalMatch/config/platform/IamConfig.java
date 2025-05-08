@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class IamConfig implements PlatformConfig {
     private final String platform = "IAM";
+    private final String fullNameInKorean = "아이엠그라운드";
     private final String date = "start_date";
     private final String time = "start_time";
     private final String region = "fAddress";
@@ -23,4 +24,6 @@ public class IamConfig implements PlatformConfig {
     private final String link = "s_match_num";
     private final String requestBaseURL = "https://m.iamground.kr/api/v1/s_match/getsmatchlist";
     private final String matchLinkBaseURL = "https://m.iamground.kr/futsal/s_match/detail/";
+
+    private final int priority = 5;
 }

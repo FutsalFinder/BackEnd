@@ -1,5 +1,6 @@
 package futsal.futsalMatch.service.strategy.transform;
 
+import futsal.futsalMatch.config.platform.PlabConfig;
 import futsal.futsalMatch.config.platform.PlatformConfig;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -46,30 +47,36 @@ public class PlabTransformStrategy extends TransformStrategy {
     @Override
     protected String resolveRegion(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getRegion()); //"서울", "경기"
+        return jsonObject.optString(config.getRegion(), null); //"서울", "경기"
     }
 
     @Override
     protected String resolveMatchTitle(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getMatchTitle());
+        return jsonObject.optString(config.getMatchTitle(), null);
     }
 
     @Override
     protected String resolveMainStadium(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getMainStadium());
+        return jsonObject.optString(config.getMainStadium(), null);
     }
 
     @Override
     protected String resolveSubStadium(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getSubStadium());
+        return jsonObject.optString(config.getSubStadium(), null);
     }
 
     @Override
     protected String resolveMatchType(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
+
+        // 플랩풋볼 게스트 매치
+        if(jsonObject.optString(PlabConfig.productType).equals("guest")) {
+            return "게스트 모집";
+        }
+
         String matchType = jsonObject.optString(config.getMatchType());
 
         return switch(matchType) {
@@ -110,30 +117,37 @@ public class PlabTransformStrategy extends TransformStrategy {
     @Override
     protected String resolveMatchVS(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getMatchVS());
+        return jsonObject.optString(config.getMatchVS(), null);
     }
 
     @Override
     protected String resolveCurPlayer(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getCurPlayer());
+        return jsonObject.optString(config.getCurPlayer(), null);
     }
 
     @Override
     protected String resolveMaxPlayer(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getMaxPlayer());
+        return jsonObject.optString(config.getMaxPlayer(), null);
     }
 
     @Override
     protected String resolvePrice(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getPrice());
+        return jsonObject.optString(config.getPrice(), null);
     }
 
     @Override
     protected String resolveLink(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return config.getMatchLinkBaseURL() + jsonObject.optString(config.getLink());
+        String id = jsonObject.optString(config.getLink());
+
+        // 플랩풋볼 게스트 매치
+        if(jsonObject.optString(PlabConfig.productType).equals("guest")) {
+            return PlabConfig.guestMatchLinkBaseURL + id;
+        }
+
+        return config.getMatchLinkBaseURL() + id;
     }
 }

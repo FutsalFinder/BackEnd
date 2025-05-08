@@ -1,0 +1,86 @@
+.match-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 8px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 왼쪽: 시간 + 플랫폼 */
+.match-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    width: 120px;                /* 고정 너비 */
+    gap: 12px;                   /* 시간과 뱃지 사이 간격 */
+    padding: 0 8px;
+    box-sizing: border-box;
+}
+
+.match-time {
+    font-weight: bold;
+    font-size: 18px;
+    font-family: monospace, sans-serif;
+    color: #111;
+    white-space: nowrap;
+}
+
+.platform-badge {
+    width: 72px; /* 고정 너비 */
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-weight: bold;
+    font-size: 13px;
+    white-space: nowrap; /* 줄바꿈 방지 */
+    flex-shrink: 0; /* 축소 방지 */
+
+    background-color: #808080;
+    color: white;
+}
+
+.platform-badge.PLAB {
+    background-color: #6799FF;
+}
+
+.platform-badge.PUZZLE {
+    background-color: #86E57F;
+}
+
+.platform-badge.WITH {
+    background-color: #FFE400;
+}
+
+.platform-badge.URBAN {
+    background-color: #ff4400;
+}
+.platform-badge.IAM {
+    background-color: #6ea8fe;
+}
+
+/* 가운데: 제목 + 상세 */
+.match-center {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.match-title {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.match-detail {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* 오른쪽: 인원 */
+.match-right {
+    min-width: 60px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 14px;
+}

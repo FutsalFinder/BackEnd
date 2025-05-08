@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PlabConfig implements PlatformConfig {
     private final String platform = "PLAB";
+    private final String fullNameInKorean = "플랩풋볼";
     private final String date = "schedule";
     private final String time = "schedule";
     private final String region = "area_group_name";
@@ -23,4 +24,10 @@ public class PlabConfig implements PlatformConfig {
     private final String link = "id";
     private final String requestBaseURL = "https://www.plabfootball.com/api/v2/integrated-matches/";
     private final String matchLinkBaseURL = "https://www.plabfootball.com/match/";
+
+    // Platform Specific
+    public static String productType = "product_type";
+    public static String guestMatchLinkBaseURL = "https://www.plabfootball.com/guest-match/";
+
+    private final int priority = 1;
 }

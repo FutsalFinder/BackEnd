@@ -9,6 +9,7 @@ import java.util.Map;
 @Component
 public class PuzzleConfig implements PlatformConfig {
     private final String platform = "PUZZLE";
+    private final String fullNameInKorean = "퍼즐플레이";
     private final String date = "match_date";
     private final String time = "match_time";
     private final String region = "ground_region";
@@ -32,4 +33,5 @@ public class PuzzleConfig implements PlatformConfig {
             "GYEONGGI_DONGBU_CODE", "65126e3929b8b579c68f372f"
     );
 
+    private final int priority = 2;
 }

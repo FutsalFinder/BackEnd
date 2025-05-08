@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FutsalFinder</title>
+    <link rel="stylesheet" th:href="@{/css/date.css}">
+    <link rel="stylesheet" th:href="@{/css/filter.css}">
+    <link rel="stylesheet" th:href="@{/css/loading.css}">
+    <link rel="stylesheet" th:href="@{/css/match.css}">
+</head>
+<body>
+
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+    <span>로딩 중...</span>
+</div>
+
+<div class="date-nav-container">
+    <button id="prevBtn" class="arrow">&lt;</button>
+
+    <div class="date-button-wrapper">
+        <div id="dateButtonList" class="date-buttons">
+            <th:block th:each="day : ${days}">
+                <button class="day"
+                        th:data-date="${day.date}"
+                        th:classappend="${day.dayWeek} == '토' ? ' saturday' : ( ${day.dayWeek} == '일' ? ' sunday' : '' )">
+                    <span class="day-date" th:text="${day.dayOfMonth}"></span>
+                    <span class="day-week" th:text="${day.dayWeek}"></span>
+                </button>
+            </th:block>
+        </div>
+    </div>
+
+    <button id="nextBtn" class="arrow">&gt;</button>
+</div>
+
+<div class="filter-container">
+    <select id="region" name="region">
+        <option th:each="region : ${regions}"
+                th:value="${region.value}"
+                th:text="${region.name}"
+                th:selected="${region == defaultRegion}">
+        </option>
+    </select>
+
+    <!-- 필터 열기 버튼들 -->
+    <button class="filter-chip" data-modal-target="#genderModal">
+        성별 <img src="/img/filter-chip-arrow.svg" class="filter-chip-arrow">
+    </button>
+    <button class="filter-chip" data-modal-target="#platformModal">
+        플랫폼 <img src="/img/filter-chip-arrow.svg" class="filter-chip-arrow">
+    </button>
+
+    <!-- 성별 모달-->
+    <div id="genderModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>성별</span>
+                <button id="closeGenderModal" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <label><input type="checkbox" value="남자" checked>남자</label>
+                <hr />
+                <label><input type="checkbox" value="여자" checked>여자</label>
+                <hr />
+                <label><input type="checkbox" value="남녀모두" checked>남녀모두</label>
+            </div>
+            <div class="modal-footer">
+                <button id="applyGenderFilter" class="apply-btn">적용하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 플랫폼 모달-->
+    <div id="platformModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>플랫폼</span>
+                <button id="closePlatformModal" class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <th:block th:each="platform : ${platforms}">
+                    <label>
+                        <input type="checkbox"
+                               th:value="${platform.platform}"
+                               checked>
+                        <span th:text="${platform.fullNameInKorean}">플랫폼명</span>
+                    </label>
+                    <hr />
+                </th:block>
+            </div>
+            <div class="modal-footer">
+                <button id="applyPlatformFilter" class="apply-btn">적용하기</button>
+            </div>
+        </div>
+    </div>
+
+    <button id="hideFullToggle" class="hide-btn">마감 가리기</button>
+</div>
+
+<div id="match-list">
+    <!-- JS가 JSON 받아서 여기에 동적 렌더링 -->
+</div>
+
+<script th:src="@{/js/home.js}"></script>
+<script th:src="@{/js/date.js}"></script>
+<script th:src="@{/js/filter.js}"></script>
+</body>
+</html>
