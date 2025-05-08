@@ -19,13 +19,13 @@ public class WithTransformStrategy extends TransformStrategy {
     @Override
     protected String resolveDate(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getDate()); //yyyy-mm-dd
+        return jsonObject.optString(config.getDate(), null); //yyyy-mm-dd
     }
 
     @Override
     protected String resolveTime(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getTime()); //hh:mm
+        return jsonObject.optString(config.getTime(), null); //hh:mm
     }
 
     @Override
@@ -47,13 +47,13 @@ public class WithTransformStrategy extends TransformStrategy {
     @Override
     protected String resolveMainStadium(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getMainStadium());
+        return jsonObject.optString(config.getMainStadium(), null);
     }
 
     @Override
     protected String resolveSubStadium(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getSubStadium());
+        return jsonObject.optString(config.getSubStadium(), null);
     }
 
     @Override
@@ -101,19 +101,19 @@ public class WithTransformStrategy extends TransformStrategy {
     @Override
     protected String resolveCurPlayer(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getCurPlayer());
+        return jsonObject.optString(config.getCurPlayer(), null);
     }
 
     @Override
     protected String resolveMaxPlayer(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getMaxPlayer());
+        return jsonObject.optString(config.getMaxPlayer(), null);
     }
 
     @Override
     protected String resolvePrice(PlatformConfig config, Object matchData) {
         JSONObject jsonObject = (JSONObject) matchData;
-        return jsonObject.optString(config.getPrice());
+        return jsonObject.optString(config.getPrice(), null);
     }
 
     @Override
