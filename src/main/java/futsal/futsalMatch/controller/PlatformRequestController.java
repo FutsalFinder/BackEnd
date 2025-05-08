@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@CrossOrigin(origins = "https://futsalfinder.co.kr/")
+@CrossOrigin(origins = {
+        "http://localhost:8080", // 로컬 개발용
+        "https://futsalfinder.co.kr", // 배포 도메인
+})
 @RequiredArgsConstructor
 @RestController
 public class PlatformRequestController {
