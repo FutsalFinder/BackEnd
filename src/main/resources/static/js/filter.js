@@ -84,6 +84,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveFilterState(modal.id); // 상태 저장
                 modal.classList.remove("active");
 
+                // 필터링 선택 버튼 활성화 (적용 사항 있을시)
+                const triggerBtn = document.querySelector(`[data-modal-target="#${modal.id}"]`);
+                const isFiltered = filterState[modal.id].unchecked.length > 0
+                if (triggerBtn) {
+                    triggerBtn.classList.toggle("active", isFiltered);
+                }
+
                 renderMatches();
                 console.log(`[${modal.id}] 필터 적용됨:`, getActiveValues(modal.id));
             }
@@ -101,7 +108,7 @@ function applyFilters(matchList) {
     return matchList
         .filter(match => activeGenders.includes(match.sex))
         .filter(match => activePlatforms.includes(match.platform))
-        .filter(match => !hideFull || !match.isFull);
+        .filter(match => !(hideFull && match.isFull)); //마감가리기 활성화 && 마감된 매치일 시 필터링
 }
 
 // 현재 적용된 항목만 가져오는 헬퍼 함수

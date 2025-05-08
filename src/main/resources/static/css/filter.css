@@ -24,6 +24,31 @@
     border-color: #0064FF;
     color: #0064FF;
 }
+/* 기본 필터 버튼 스타일 */
+.filter-chip {
+    border: 1.8px solid #D1D5DB;
+    background-color: white;
+    color: #6B7684;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* 필터 적용됨 (활성화 상태) */
+.filter-chip.active {
+    border-color: #0064FF;
+    color: #0064FF;
+}
+
+.filter-chip.active .filter-chip-arrow{
+    content: url("/img/filter-chip-arrow-selected.svg");
+}
 
 /****************/
 .modal-overlay {
