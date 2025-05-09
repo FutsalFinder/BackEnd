@@ -112,3 +112,33 @@
     border-radius: 12px;
     cursor: pointer;
 }
+
+#vacancyRange {
+    width: 100%;          /* 부모 영역 다 채우기 */
+    max-width: 300px;     /* 너무 길어지지 않도록 제한 */
+    margin-top: 8px;
+
+}
+
+/* 슬라이더 트랙 (크롬, 사파리 등) */
+#vacancyRange::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 파이어폭스 대응 */
+#vacancyRange::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #007bff;
+    border: none;
+    cursor: pointer;
+}

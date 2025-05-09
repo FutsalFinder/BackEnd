@@ -44,12 +44,18 @@
     </select>
 
     <!-- 필터 열기 버튼들 -->
-    <button class="filter-chip" data-modal-target="#genderModal">
+    <button class="filter-chip" data-modal-target="#genderModal" data-multifilter>
         성별 <img src="/img/filter-chip-arrow.svg" class="filter-chip-arrow">
     </button>
-    <button class="filter-chip" data-modal-target="#platformModal">
+    <button class="filter-chip" data-modal-target="#platformModal" data-multifilter>
         플랫폼 <img src="/img/filter-chip-arrow.svg" class="filter-chip-arrow">
     </button>
+    <button class="filter-chip" data-modal-target="#vacancyModal" data-singlefilter data-filter-key="minVacancy">
+        잔여인원 <img src="/img/filter-chip-arrow.svg" class="filter-chip-arrow">
+    </button>
+
+    <!-- 마감 가리기 버튼 -->
+    <button id="hideFullToggle" class="hide-btn">마감 가리기</button>
 
     <!-- 성별 모달-->
     <div id="genderModal" class="modal-overlay">
@@ -95,7 +101,24 @@
         </div>
     </div>
 
-    <button id="hideFullToggle" class="hide-btn">마감 가리기</button>
+    <!-- 잔여인원 모달-->
+    <div id="vacancyModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>잔여인원</span>
+                <button class="close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <label for="vacancyRange">
+                    <span id="vacancyValue" class="value-display"></span>
+                </label>
+                <input type="range" id="vacancyRange" min="0" max="20" value="0">
+            </div>
+            <div class="modal-footer">
+                <button id="applyVacancyFilter" class="apply-btn" >적용하기</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="match-list">
