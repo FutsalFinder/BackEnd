@@ -1,4 +1,12 @@
 const filterState = {}; // ex: { gender: { all: [...], unchecked: [...] }, platform: { ... } }
+let minVacancy = 0
+
+const vacancySlider = document.getElementById("vacancyRange");
+const vacancyDisplay = document.getElementById("vacancyValue");
+
+vacancySlider.addEventListener("input", () => {
+    vacancyDisplay.textContent = vacancySlider.value === "0" ? "모든 매치" : `${vacancySlider.value}인 이상 신청 가능`;
+})
 
 // 필터 상태 초기화 (최초 1회), 전역 필터링 상태 저장 -> renderMatches() 호출 시 전역 필터 상태 기반 필터링
 function initFilterState(modalId) {
@@ -37,9 +45,14 @@ function saveFilterState(modalId) {
 
 document.addEventListener("DOMContentLoaded", () => {
     // 필터 모달 초기화 (모달 id 기준)
-    // 모든 .modal-overlay를 자동 탐색하여 초기화
-    document.querySelectorAll(".modal-overlay").forEach(modal => {
-        initFilterState(modal.id);
+
+    // 멀티 필터 초기화
+    document.querySelectorAll('[data-multifilter][data-modal-target]').forEach(btn => {
+        const modalSelector = btn.getAttribute("data-modal-target"); // ex: "#genderModal"
+        const modal = document.querySelector(modalSelector);
+        if (modal) {
+            initFilterState(modal.id);
+        }
     });
 
     // 모달 열기 버튼
@@ -47,12 +60,21 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", () => {
             const selector = btn.getAttribute("data-modal-target");
             const modal = document.querySelector(selector);
-            if (modal) {
+            if(!modal) return;
+
+            //멀티 필터 모달일 시,
+            if (btn.hasAttribute("data-multi-filter")) {
                 renderFilterState(modal.id); // 상태 복원
-                modal.classList.add("active");
-                //CSS .modal-overlay.active -> 화면에 display 되도록, modal-overlay는 선택시 나타나는 전체 회색배경.
-                //이 배경이 active 되면 내부 modal-content도 함께 나타난다.
             }
+
+            if (modal.id === "vacancyModal") {
+                vacancySlider.value = minVacancy;
+                vacancyDisplay.textContent = vacancySlider.value === "0" ? "모든 매치" : `${vacancySlider.value}인 이상 신청 가능`;
+            }
+
+            //CSS .modal-overlay.active -> 화면에 display 되도록, modal-overlay는 선택시 나타나는 전체 회색배경.
+            //이 배경이 active 되면 내부 modal-content도 함께 나타난다.
+            modal.classList.add("active");
         });
     });
 
@@ -61,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", () => {
             const modal = btn.closest(".modal-overlay");
             if (modal) {
-                //닫기 버튼 클릭시 체크 박스 상태는 저장하지 않는다.
+                //닫기 버튼 클릭시 상태는 저장하지 않는다.
                 modal.classList.remove("active");
             }
         });
@@ -71,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".modal-overlay").forEach(modal => {
         modal.addEventListener("click", (e) => {
             if (e.target === modal) {
-                //바깥 클릭으로 닫을시 체크 박스 상태는 저장하지 않는다.
+                //바깥 클릭으로 닫을시 상태는 저장하지 않는다.
                 modal.classList.remove("active");
             }
         });
@@ -81,20 +103,24 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".modal-overlay .apply-btn").forEach(btn => {
         btn.addEventListener("click", () => {
             const modal = btn.closest(".modal-overlay");
-            if (modal) {
-                saveFilterState(modal.id); // 상태 저장
-                modal.classList.remove("active");
+            if(!modal) return;
 
-                // 필터링 선택 버튼 활성화 (적용 사항 있을시)
-                const triggerBtn = document.querySelector(`[data-modal-target="#${modal.id}"]`);
-                const isFiltered = filterState[modal.id].unchecked.length > 0
-                if (triggerBtn) {
-                    triggerBtn.classList.toggle("active", isFiltered);
-                }
+            const triggerBtn = document.querySelector(`[data-modal-target="#${modal.id}"]`);
+            if(!triggerBtn) return;
 
-                renderMatches();
-                console.log(`[${modal.id}] 필터 적용됨:`, getActiveValues(modal.id));
+            let isFiltered = false;
+            if(triggerBtn.hasAttribute("data-multifilter")) {
+                saveFilterState(modal.id);
+                isFiltered = filterState[modal.id]?.unchecked?.length > 0;
+            } else if(modal.id === "vacancyModal") {
+                minVacancy = vacancySlider.value;
+                isFiltered = minVacancy > 0;
             }
+
+            modal.classList.remove("active");
+            triggerBtn.classList.toggle("active", isFiltered);
+
+            renderMatches();
         });
     });
 })
@@ -109,7 +135,8 @@ function applyFilters(matchList) {
     return matchList
         .filter(match => activeGenders.includes(match.sex))
         .filter(match => activePlatforms.includes(match.platform))
-        .filter(match => !(hideFull && match.isFull)); //마감가리기 활성화 && 마감된 매치일 시 필터링
+        .filter(match => !(hideFull && match.vacancy === 0)) //마감가리기 활성화 && 마감된 매치일 시 필터링
+        .filter(match => match.vacancy >= minVacancy);
 }
 
 // 현재 적용된 항목만 가져오는 헬퍼 함수

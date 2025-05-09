@@ -19,7 +19,8 @@ function fetchMatches(date) {
         .then(data => {
             allMatches = data.map(match => ({
                 ...match,
-                isFull: parseInt(match.cur_player) >= parseInt(match.max_player) //마감 여부 추가. '마감가리기' 필터용
+                vacancy: parseInt(match.max_player ?? "999") - parseInt(match.cur_player ?? "0")
+                //인원 정보가 없을 경우, 잔여인원을 크게 설정하여 필터링 되지 않도록 한다.
             }));
             renderMatches();
         })

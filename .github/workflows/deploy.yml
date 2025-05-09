@@ -3,7 +3,7 @@ name: Deploy To EC2
 on:
   push:
     branches:
-      - integrate-fe-be
+      - feat/filter-vacancy
 
 jobs:
   deploy:
